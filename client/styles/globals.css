@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #0d0620;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #2A2440;
+    border-radius: 30px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+body {
+    background-color: #371B58;
+}
+
+.dark_bg{
+    background-color: #371B58;
+}
+.dark_theme{
+    background-color: #2A2440;
+}
+
+.swal2-popup{
+    background-color: #2A2440!important;
+}
+.title{
+    font-size: 24px;
+    color: #A3B397;
+    font-weight: bold
+}
+
+.glow {
+  text-shadow: 0 0px 30px rgb(250 204 21/ 2);
+}
+
+#my-canvas{
+  position: absolute;
+  width: 90%;
+  z-index: 99999;
+  height: 100%;
+  opacity: 0;
+}
+
+#my-canvas.show-canvas{
+  opacity: 1;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
