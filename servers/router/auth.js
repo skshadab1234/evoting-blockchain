@@ -1,21 +1,21 @@
 const express = require("express")
 const router = express.Router()
-const User = require("../models/admin_election_manager")
+const Admin = require("../models/admin_election_manager")
 const bcrypt = require("bcryptjs")
 const pageAuth = require("../middleware/pageAuth")
 
-router.post('/register', async (req,res) => {
+router.post('/admin_register', async (req,res) => {
     const { email, password } = req.body
     const testOn = true 
     try {
-        const UserExists = await User.findOne({email:email});
+        const AdminExists = await Admin.findOne({email:email});
 
-        if(UserExists)
+        if(AdminExists)
         {
-            res.status(400).json({ message: "User Already Exists"});
+            res.status(400).json({ message: "Admin Already Exists"});
         }else{
-            const user = new User({email, password})
-            await user.save();
+            const Admin = new Admin({email, password})
+            await Admin.save();
             res.status(200).json({ message: "Registered Successfully"});
         }
 
@@ -26,24 +26,24 @@ router.post('/register', async (req,res) => {
 })
 
 // Login Route 
-router.post("/login",async (req, res) => {
+router.post("/admin_login",async (req, res) => {
     try {
         const {email, password} = req.body
 
-        const userData = await User.findOne({email: email})
+        const AdminData = await Admin.findOne({email: email})
 
-        if(!userData) {
+        if(!AdminData) {
             res.status(400).json({message: "Invalid Data"})
         }else{
             // Getting Generated Tokens 
-            const token = await userData.generateAuthToken()
+            const token = await AdminData.generateAuthToken()
             
             res.cookie("jwtoken", token, {
                 expires: new Date(Date.now() + 25892000000),
                 httpOnly:true
             })
 
-            const isMatch = await bcrypt.compare(password, userData.password)
+            const isMatch = await bcrypt.compare(password, AdminData.password)
             if(isMatch){
                 res.status(200).json({message: "Logged Successfully"})
             }else{
@@ -56,20 +56,20 @@ router.post("/login",async (req, res) => {
 })
 
 // Profile Page Router
-router.get("/profile", pageAuth, (req,res) => {
-    res.send(req.rootUser)
-    // console.log(req.rootUser);   
+router.get("/admin_profile", pageAuth, (req,res) => {
+    res.send(req.rootAdmin)
+    // console.log(req.rootAdmin);   
 })
 
-router.get("/getdata", pageAuth, (req,res) => {
-    res.send(req.rootUser)
-    res.status(200).send("User Founded this user")
-    // console.log(req.rootUser);
+router.get("/admin_getdata", pageAuth, (req,res) => {
+    res.send(req.rootAdmin)
+    res.status(200).send("Admin Founded this Admin")
+    // console.log(req.rootAdmin);
 })
 
-router.get("/logout", (req,res) => {
+router.get("/admin_logout", (req,res) => {
     res.clearCookie("jwtoken", {path: '/' })
-    // console.log(req.rootUser);
+    // console.log(req.rootAdmin);
     res.status(200).send("Logout Successfully")
 })
 

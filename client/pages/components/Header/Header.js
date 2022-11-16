@@ -1,6 +1,6 @@
-import { Fragment, useContext, useState, useEffect } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
+
 
 export default function Header({ token }) {
   const [userdata, setuserdata] = useState([])
@@ -34,123 +34,46 @@ export default function Header({ token }) {
   }
 
   return (
-
-    <Disclosure as="nav" className={"sticky top-0 dark_bg z-[99999]"}>
-      <>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-        <div className="max-w-10xl  px-2 sm:px-6 lg:px-8 ">
-          <div className="relative flex justify-between">
-            <div className="flex-1 flex   h-24">
-              <div className="flex-shrink-0 flex ">
-                <Link href="/">
-                  <img
-                    className="block h-20 relative top-0 w-auto cursor-pointer"
-                    src="../Logo.png"
-                    alt="Candidate Recognization Logo"
-                    title='Candidate Recognization Logo'
-                  />
-                </Link>
-                {/* <Link href="/">
-                  <img
-                    className="hidden lg:block h-8 w-auto cursor-pointer"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
-                  />
-                  </Link> */}
-              </div>
-
+    <>
+      <header>
+        <nav class="px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+          <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+            <Link href="/">
+              <a class="flex items-center">
+                <img src="../Logo.png" class="mr-3 h-[60px] sm:h-[60px]" alt="Candidate Recognization" />
+              </a>
+            </Link>
+            <div class="flex items-center lg:order-2">
+              <Link href={"/Login"}>
+              <a class="glassmorphism text-white dark:text-white  font-medium rounded-lg text-sm px-4 
+                                lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
+              </Link>
+              <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              </button>
             </div>
-
-            {token == '' ? <>
-            </> :
-              <>
-                <div className="absolute inset-y-0 right-0 flex mt-5 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="ml-3 relative md:w-full w-40 hidden md:block top-0">
-                    <div>
-                      <Menu.Button className="text-white flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white relative top-0">
-                        <span className="sr-only">Open user menu</span>
-                        {
-                          profileLoading ? <>
-                            <div className='flex justify-center  place-items-center relative top-0'>
-                              <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
-                              </svg>
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </> : <>
-
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://walldeco.id/themes/walldeco/assets/images/avatar-default.jpg"
-                              alt=""
-                            /> 
-                          </>
-                        }
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <Link href="/Profile">
-                              <a
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                Your Profile
-                              </a>
-                            </Link>
-
-                          )}
-                        </Menu.Item>
-
-                        {
-                          userdata.email == 'ks615044@gmail.com' ? <Menu.Item>
-                            {({ active }) => (
-                              <Link href="../user_settings/user_settings">
-                                <a
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Settings
-                                </a>
-                              </Link>
-                            )}
-                          </Menu.Item> : ''
-                        }
-
-                        <Menu.Item>
-                          {({ active }) => (
-                            <Link href="/Logout">
-                              <a
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                Sign out
-                              </a>
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-              </>
-            }
+            <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+              <ul class="flex flex-col mt-4 text-white lg:flex-row lg:space-x-8 lg:mt-0">
+                <li>
+                  <a href="#" class="block py-2 pr-4 pl-3 font-bold text-[#fff] rounded bg-primary-700 lg:bg-transparent lg:text-[#7278B6] lg:p-0 dark:text-[#7278B6]" aria-current="page">Home</a>
+                </li>
+                <li>
+                  <a href="#" class="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">About us</a>
+                </li>
+                <li>
+                  <a href="#" class="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
+                </li>
+                <li>
+                  <a href="#" class="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-
-      </>
-    </Disclosure>
+        </nav>
+      </header>
+    </>
   )
 }
 

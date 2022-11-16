@@ -2,46 +2,27 @@ module.exports = () => {
   const rewrites = () => {
     return [
       {
-        source: "/settings",
-        destination: "http://localhost:3001/settings",
+        source: "/admin_login",
+        destination: "http://localhost:3001/admin_login",
       },
+      {
+        source: "/admin_profile",
+        destination: "http://localhost:3001/admin_profile",
+      },
+      {
+        source: "/admin_getdata",
+        destination: "http://localhost:3001/admin_getdata",
+      },
+      {
+        source: "/admin_logout",
+        destination: "http://localhost:3001/admin_logout",
+      },
+
+      // Users 
       {
         source: "/login",
         destination: "http://localhost:3001/login",
       },
-      {
-        source: "/profile",
-        destination: "http://localhost:3001/profile",
-      },
-      {
-        source: "/getdata",
-        destination: "http://localhost:3001/getdata",
-      },
-      {
-        source: "/logout",
-        destination: "http://localhost:3001/logout",
-      },
-      {
-        source: "/register",
-        destination: "http://localhost:3001/register",
-      },
-      {
-        source: "/uploadTest",
-        destination: "http://localhost:3001/uploadTest",
-      },
-      {
-        source: "/EndTest",
-        destination: "http://localhost:3001/EndTest",
-      },
-      {
-        source: "/getWinnersList",
-        destination: "http://localhost:3001/getWinnersList",
-      },
-      {
-        source: "/GetUserScore",
-        destination: "http://localhost:3001/GetUserScore",
-      },
-
     ];
   };
   return {

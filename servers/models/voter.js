@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-const adminSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     email: {type: String, required: true},
     firstname: {type: String, required: true},
     lastname: {type: String, required: true},
@@ -15,7 +15,7 @@ const adminSchema = new mongoose.Schema({
 })
 
 // We are making our password hash
-adminSchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next) {
     if(this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12)
     }
@@ -23,7 +23,7 @@ adminSchema.pre('save', async function(next) {
 })
 
 // We are generating the tokens
-adminSchema.methods.generateAuthToken = async function() {
+userSchema.methods.generateAuthToken = async function() {
     try {
         let payload = {_id:this._id}
         let unique32Char = process.env.SECRET_CHAR
@@ -39,7 +39,7 @@ adminSchema.methods.generateAuthToken = async function() {
 }
 
 //Model 
-const Admin = mongoose.model("admin_election_manager", adminSchema)
+const User = mongoose.model("admin_election_manager", userSchema)
 
 // export MODULE TO  USE IN OTHER FILES 
-module.exports = Admin
+module.exports = User

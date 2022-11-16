@@ -13,6 +13,8 @@
     "@heroicons/react": "^1.0.6",
     "confetti-js": "^0.0.18",
     "cookies-next": "^2.1.1",
+    "flowbite": "^1.5.4",
+    "flowbite-react": "^0.3.4",
     "js-cookie": "^3.0.1",
     "moment": "^2.29.4",
     "next": "12.2.4",
