@@ -35,16 +35,15 @@ router.post("/admin_login",async (req, res) => {
         if(!AdminData) {
             res.status(400).json({message: "Invalid Data"})
         }else{
-            // Getting Generated Tokens 
-            const token = await AdminData.generateAuthToken()
-            
-            res.cookie("jwtoken", token, {
-                expires: new Date(Date.now() + 25892000000),
-                httpOnly:true
-            })
-
             const isMatch = await bcrypt.compare(password, AdminData.password)
             if(isMatch){
+                // Getting Generated Tokens 
+                const token = await AdminData.generateAuthToken()
+                
+                res.cookie("evotingLoginToken", token, {
+                    expires: new Date(Date.now() + 25892000000),
+                    httpOnly:true
+                })
                 res.status(200).json({message: "Logged Successfully"})
             }else{
                 res.status(400).json({message: "Invalid Credentials"})
@@ -68,12 +67,8 @@ router.get("/admin_getdata", pageAuth, (req,res) => {
 })
 
 router.get("/admin_logout", (req,res) => {
-    res.clearCookie("jwtoken", {path: '/' })
-    // console.log(req.rootAdmin);
-    res.status(200).send("Logout Successfully")
+    res.cookie('evotingLoginToken', '', { expires: new Date(1) });
+    res.send('Cookie cleared');
 })
-
-
-
 
 module.exports = router

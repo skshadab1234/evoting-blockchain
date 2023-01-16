@@ -26,7 +26,7 @@
 }
 
 body {
-background-color: #371B58;
+background-color: #0F172A;
 overflow-x: hidden;
 }
 
@@ -45,7 +45,7 @@ position: absolute;
 height: 510px;
 left: 0px;
 top: 14px;
-  background: #371B58;
+  background: #183351;
   filter: blur(100px);
   z-index: -6;
 }
@@ -58,7 +58,7 @@ width: 1076.5px;
 height: 348.5px;
 left: 369px;
 top: 672px;
-  background: #7858A6;
+  background: #193151;
   filter: blur(100px);
 z-index: -1;
 }
@@ -72,7 +72,7 @@ height: 664.04px;
 left: 634px;
 top: -6.1px;
 
-  background: #5B4B8A;
+  background: #13243C;
   filter: blur(100px);
   z-index: -2;
 }
@@ -85,13 +85,14 @@ width: 845.5px;
 height: 421.9px;
 left: 9.5px;
 top: 598.6px;
-  background: #4C3575;
+  background: #142741;
   filter: blur(100px);
   z-index: -3;
 }
 
 .swal2-popup {
-  background-color: #4C3575 !important;
+  background-color: #0F172A !important;
+  color: #fff!important;
 }
 
 .title {
@@ -116,6 +117,26 @@ top: 598.6px;
   opacity: 1;
 }
 
+.logoImage{
+  width: 100px;
+}
+
+.dark_mode {
+  background-color: #0F172A;
+  color: #f3f3f3;
+}
+
+.dark_mode_secondary {
+  background-color: #1E293B;
+}
+
+@media screen and (max-width: 600px) {
+  .recharts-wrapper{
+    width: 400px;
+    height: 400px;
+    overflow: scroll
+  }
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
