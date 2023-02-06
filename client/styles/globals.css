@@ -129,13 +129,14 @@ top: 598.6px;
 .dark_mode_secondary {
   background-color: #1E293B;
 }
+.recharts-wrapper{
+ 
+  width: 100%;
+  
+}
 
-@media screen and (max-width: 600px) {
-  .recharts-wrapper{
-    width: 400px;
-    height: 400px;
-    overflow: scroll
-  }
+.ant-btn-primary{
+  background-color: #1677ff!important;
 }
 @tailwind base;
 @tailwind components;

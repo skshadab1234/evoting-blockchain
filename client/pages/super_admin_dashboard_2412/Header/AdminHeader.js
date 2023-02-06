@@ -18,13 +18,6 @@ const AdminHeader = () => {
   const { pathname } = router;
 
   // Fetching AdminData 
-
-  const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  }
   const FetchAdmin = async () => {
     try {
       const response = await fetch("/admin_getdata", {
@@ -58,10 +51,10 @@ const AdminHeader = () => {
   }, [AdminData, loggedStatus])
 
   const AdminUrl = "/super_admin_dashboard_2412"
-
+  const rootUrl = 'http://localhost:3000/'
   const [navigation, setnavigation] = useState([
     { id: 1, name: 'Dashboard', href: `${AdminUrl}`, current: false },
-    { id: 2, name: 'Manage', href: '#', current: false },
+    { id: 2, name: 'Manage', href: `${AdminUrl}/manage/`, current: false },
     { id: 3, name: 'Clubs and Organizations', href: `${AdminUrl}/clubs`, current: false },
     { id: 4, name: 'Calendar', href: '#', current: false },
     { id: 5, name: 'News Feed', href: '#', current: false },
@@ -95,6 +88,14 @@ const AdminHeader = () => {
       setTitle("Clubs and Organizations")
       handleChange(3, true)
     }
+    else if (`${AdminUrl}/manage` == pathname) {
+      setTitle("Manage")
+      handleChange(2, true)
+    }
+    else if (`${AdminUrl}/manage/candidates` == pathname) {
+      setTitle("Manage Candidate")
+      handleChange(2, true)
+    }
   }, [Title])
 
   
@@ -113,7 +114,7 @@ const AdminHeader = () => {
                   <div className="flex-shrink-0">
                     <img
                       className="h-16 w-16"
-                      src="../Admin-Logo.png"
+                      src={`${rootUrl}/Admin-Logo.png`}
                       alt="CR Admin Logo"
                     />
                   </div>
@@ -145,7 +146,7 @@ const AdminHeader = () => {
                       <div>
                         <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={`../assets/admin/profile${AdminData.profile}`} alt="" />
+                          <img className="h-8 w-8 rounded-full" src={`${rootUrl}/assets/admin/profile${AdminData.profile}`} alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -161,7 +162,7 @@ const AdminHeader = () => {
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-60 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <><div className="flex items-center p-3">
                             <div className="flex-shrink-0">
-                              <img className="h-10 w-10 rounded-full" src={`../assets/admin/profile${AdminData.profile}`} alt="" />
+                              <img className="h-10 w-10 rounded-full" src={`${rootUrl}/assets/admin/profile${AdminData.profile}`} alt="" />
                             </div>
                             <div className="ml-3 w-4/6 ">
                               <div className="text-ellipsis overflow-hidden text-base font-medium leading-none text-gray-600">{AdminData.firstname + " " + AdminData.lastname}</div>
