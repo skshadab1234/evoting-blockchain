@@ -138,6 +138,16 @@ top: 598.6px;
 .ant-btn-primary{
   background-color: #1677ff!important;
 }
+
+.ant-table-column-sort{
+  background: #183351!important;
+  color: #fff!important
+}
+
+.no-hover:hover {
+  background-color: transparent !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -9,39 +9,44 @@ const candidates = () => {
 
   const columns = [
     {
-      title: 'Avatar',
-      dataIndex: 'image',
-      key: 'image',
-      render: image => <img src={image} style={{ width: 50, height: 50, borderRadius: 50 }} />,
+      title: 'VoterId',
+      dataIndex: 'voterId',
+      key: 'voterId',
+      sorter: (a, b) => a.voterId.localeCompare(b.voterId),
       width: 100
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      title: 'First Name',
+      dataIndex: 'firstName',
+      key: 'firstName',
+      sorter: (a, b) => a.firstName.localeCompare(b.firstName),
       width: 100
     },
     {
-      title: 'Party',
-      dataIndex: 'party',
-      key: 'party',
-      sorter: (a, b) => a.party.localeCompare(b.party),
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName',
+      sorter: (a, b) => a.lastName.localeCompare(b.lastName),
       width: 150
     },
     {
-      title: 'Platofrm',
-      dataIndex: 'platform',
-      key: 'platform',
-      sorter: (a, b) => a.platform.localeCompare(b.platform),
-      width: 400
-
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      sorter: (a, b) => a.email.localeCompare(b.email),
+      width: 150
     },
     {
-      title: 'Slogan',
-      dataIndex: 'slogan',
-      key: 'slogan',
-      sorter: (a, b) => a.slogan.localeCompare(b.slogan),
+      title: 'votingRights',
+      dataIndex: 'votingRights',
+      key: 'votingRights',
+      sorter: (a, b) => a.votingRights.localeCompare(b.votingRights),
+    },
+    {
+      title: 'votesCast',
+      dataIndex: 'votesCast',
+      key: 'votesCast',
+      sorter: (a, b) => a.votesCast.localeCompare(b.votesCast),
     },
     {
       title: 'Action',
@@ -67,9 +72,9 @@ const candidates = () => {
 
   
   useEffect(() => {
-    const callCandidate = async () => {
+    const callVoter = async () => {
       try {
-          const req = await fetch('/getAllCandidate' , {
+          const req = await fetch('/getAllVoter' , {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -84,7 +89,7 @@ const candidates = () => {
       }
   }
 
-  callCandidate();
+  callVoter();
 }, [])
 
 
@@ -164,9 +169,9 @@ const candidates = () => {
             },
           ]);
 
-          const AddCandidate = async () => {
+          const AddVoter = async () => {
             try {
-              const res = await fetch("/add_candidate", {
+              const res = await fetch("/add_voter", {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
@@ -179,7 +184,7 @@ const candidates = () => {
             const data = await res.json();
             // console.log(data)
             if(data.status == 200) {
-              message.success("Candidate Added Successfully")
+              message.success("Voter Added Successfully")
             }else{
               message.error("Something Went Wrong")
             }
@@ -190,7 +195,7 @@ const candidates = () => {
           }
 
           // Caling Add Candidate Function
-          AddCandidate();
+          AddVoter();
 
         } else {
           console.log('update');
@@ -203,9 +208,9 @@ const candidates = () => {
 
             // console.log({selectedKey, values})
             // Update Candidate Request 
-            const updateCandidate = async () => {
+            const updateVoter = async () => {
               try {
-                const res = await fetch("/update_candidate", {
+                const res = await fetch("/update_voter", {
                   method: "POST",
                   headers: {
                       "Content-Type" : "application/json"
@@ -218,7 +223,7 @@ const candidates = () => {
               const data = await res.json();
               // console.log(data)
               if(data.status == 200) {
-                message.success("Candidate Updated Successfully")
+                message.success("Voter Updated Successfully")
               }else{
                 message.error("Something Went Wrong")
               }
@@ -229,7 +234,7 @@ const candidates = () => {
             }
   
             // Caling Add Candidate Function
-            updateCandidate();
+            updateVoter();
 
           })
          
@@ -242,7 +247,7 @@ const candidates = () => {
     <main>
       <AdminHeader />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 p-5">
-        <h1 className='text-4xl text-gray-300 font-bold mb-2'>Candidates</h1>
+        <h1 className='text-4xl text-gray-300 font-bold mb-2'>Voter's</h1>
         <nav aria-label="Breadcrumbs" className="order-first flex text-sm font-semibold sm:space-x-2">
           <Link href={`${AdminUrl}`}>
             <a className="hove:text-slate-600r hidden text-slate-500 sm:block" >Home</a>
@@ -252,14 +257,14 @@ const candidates = () => {
             <a class="hidden text-slate-500 hover:text-slate-600 sm:block" >Manage</a>
           </Link>
           <div aria-hidden="true" class="hidden select-none text-slate-400 sm:block">/</div>
-          <p class="text-slate-500 hover:text-slate-600">Manage candidates</p>
+          <p class="text-slate-500 hover:text-slate-600">Manage voter's</p>
         </nav>
 
        {
         Loading ? "Table Loading" :
         <>
            <div className='flex justify-center'>        
-          <Button onClick={handleCreate} className="text-gray-300">Add New Candidate</Button>
+          <Button onClick={handleCreate} className="text-gray-300">Add New Voter</Button>
         </div>
        <div className='table-responsive'>
         <Table columns={columns}
@@ -286,19 +291,37 @@ const candidates = () => {
 
         >
           <Form form={form} className="mt-2">
-            <Form.Item name="name" label="Name">
+            <Form.Item name="firstName" label="First Name">
               <Input />
             </Form.Item>
-            <Form.Item name="party" label="Party">
+            <Form.Item name="lastName" label="lastName">
               <Input />
             </Form.Item>
-            <Form.Item name="platform" label="Platform">
+            <Form.Item name="email" label="email">
               <Input />
             </Form.Item>
-            <Form.Item name="slogan" label="Slogan">
+            <Form.Item name="votingRights" label="votingRights">
               <Input />
             </Form.Item>
-            <Form.Item name="image" label="image">
+            <Form.Item name="dateOfBirth" label="dateOfBirth">
+              <Input />
+            </Form.Item>
+            <Form.Item name="address" label="address">
+              <Input />
+            </Form.Item>
+            <Form.Item name="city" label="city">
+              <Input />
+            </Form.Item>
+            <Form.Item name="state" label="state">
+              <Input />
+            </Form.Item>
+            <Form.Item name="zipCode" label="zipCode">
+              <Input />
+            </Form.Item>
+            <Form.Item name="phoneNumber" label="phoneNumber">
+              <Input />
+            </Form.Item>
+            <Form.Item name="isVerified" label="isVerified">
               <Input />
             </Form.Item>
           </Form>

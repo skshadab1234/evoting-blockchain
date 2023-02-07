@@ -47,11 +47,11 @@ const AdminHeader = () => {
   }
 
   useEffect(() => {
-    FetchAdmin()
+    if(AdminData == '') FetchAdmin()
   }, [AdminData, loggedStatus])
 
   const AdminUrl = "/super_admin_dashboard_2412"
-  const rootUrl = 'http://localhost:3000/'
+  const rootUrl = 'https://ivoting.vercel.app'
   const [navigation, setnavigation] = useState([
     { id: 1, name: 'Dashboard', href: `${AdminUrl}`, current: false },
     { id: 2, name: 'Manage', href: `${AdminUrl}/manage/`, current: false },
@@ -94,6 +94,10 @@ const AdminHeader = () => {
     }
     else if (`${AdminUrl}/manage/candidates` == pathname) {
       setTitle("Manage Candidate")
+      handleChange(2, true)
+    }
+    else if (`${AdminUrl}/manage/voters` == pathname) {
+      setTitle("Manage Voters")
       handleChange(2, true)
     }
   }, [Title])
@@ -231,7 +235,7 @@ const AdminHeader = () => {
 
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <img className="h-10 w-10 rounded-full" src={`../assets/admin/profile${AdminData.profile}`} alt="" />
+                    <img className="h-10 w-10 rounded-full" src={`${rootUrl}/assets/admin/profile${AdminData.profile}`} alt="" />
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">{AdminData.firstname+" "+AdminData.lastname}</div>

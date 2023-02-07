@@ -2,7 +2,8 @@ require('dotenv').config()
 module.exports = () => {
   
   const rewrites = () => {
-    const url = 'https://i-voting-server.onrender.com'
+    //const url = 'http://localhost:3001'
+     const url = 'https://i-voting-server.onrender.com'
     return [
       
       {
@@ -27,8 +28,28 @@ module.exports = () => {
         destination: `${url}/add_candidate`,
       },
       {
+        source: "/update_candidate",
+        destination: `${url}/update_candidate`,
+      },
+      {
+        source: "/delete_candidate",
+        destination: `${url}/delete_candidate`,
+      },
+      {
         source: "/getAllCandidate",
         destination: `${url}/getAllCandidate`,
+      },
+      {
+        source: "/getAllVoter",
+        destination: `${url}/getAllVoter`,
+      },
+      {
+        source: "/add_voter",
+        destination: `${url}/add_voter`,
+      },
+      {
+        source: "/update_voter",
+        destination: `${url}/update_voter`,
       },
       
       {

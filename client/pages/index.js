@@ -11,7 +11,7 @@ const index = ({ token }) => {
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
         <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
       </Head>
-      <div>
+      <div className='hidden md:block'>
         <div className="ellipse-1"></div>
         <div className="ellipse-2 animate-pulse"></div>
         <div className="ellipse-3 animate-pulse"></div>
