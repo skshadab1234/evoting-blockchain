@@ -10,7 +10,6 @@ const Login = ({token}) => {
     const [inputsvalues, setinputsvalues] = useState({
         email: "",
         password: "",
-        // year_sem: "",
     })
 
     const [userdata, setuserdata] = useState({})
@@ -185,4 +184,4 @@ export default Login
 
 export function getServerSideProps({ req, res}) {
     return { props: {token: req.cookies.jwtoken || ''}}
-  }
+}

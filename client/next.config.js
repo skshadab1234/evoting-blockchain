@@ -2,7 +2,7 @@ require('dotenv').config()
 module.exports = () => {
   
   const rewrites = () => {
-    //const url = 'http://localhost:3001'
+    // const url = 'http://localhost:3001'
      const url = 'https://i-voting-server.onrender.com'
     return [
       
@@ -51,6 +51,10 @@ module.exports = () => {
         source: "/update_voter",
         destination: `${url}/update_voter`,
       },
+      {
+        source: "/delete_voter",
+        destination: `${url}/delete_voter`,
+      },
       
       {
         source: "/admin_all",
@@ -70,57 +74,3 @@ module.exports = () => {
     
   };
 };
-
-
-
-// Server
-
-// module.exports = () => {
-//   const rewrites = () => {
-//     return [
-//       {
-//         source: "/login",
-//         destination: "https://ciiyc-2022.herokuapp.com/login",
-//       },
-//       {
-//         source: "/profile",
-//         destination: "https://ciiyc-2022.herokuapp.com/profile",
-//       },
-//       {
-//         source: "/getdata",
-//         destination: "https://ciiyc-2022.herokuapp.com/getdata",
-//       },
-//       {
-//         source: "/logout",
-//         destination: "https://ciiyc-2022.herokuapp.com/logout",
-//       },
-//       {
-//         source: "/register",
-//         destination: "https://ciiyc-2022.herokuapp.com/register",
-//       },
-//       {
-//         source: "/uploadTest",
-//         destination: "https://ciiyc-2022.herokuapp.com/uploadTest",
-//       },
-//       {
-//         source: "/EndTest",
-//         destination: "https://ciiyc-2022.herokuapp.com/EndTest",
-//       },
-//       {
-//         source: "/settings",
-//         destination: "https://ciiyc-2022.herokuapp.com/settings",
-//       },
-//       {
-//         source: "/getWinnersList",
-//         destination: "https://ciiyc-2022.herokuapp.com/getWinnersList",
-//       },
-//       {
-//         source: "/GetUserScore",
-//         destination: "https://ciiyc-2022.herokuapp.com/GetUserScore",
-//       },
-//     ];
-//   };
-//   return {
-//     rewrites,
-//   };
-// };

@@ -9,13 +9,15 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-
+import { useRouter } from 'next/router'
 
 const index = () => {
+  const router = useRouter();
   const [election_manager_data, setelection_manager_data] = useState([])
   const [lastToken, setlastToken] = useState([])
   const [fetchGraph, setfetchGraph] = useState(false)
   const [votedData, setvotedData] = useState([])
+  const [isLoading, setisLoading] = useState(true)
   const [stats, setstats] = useState([
     { id: 1, stat_name: 'No. of Positions', href: "", stats_value: 200, haveChart: false },
     { id: 2, stat_name: 'No. of Candidates', href: "", stats_value: "100K", haveChart: true },
@@ -26,11 +28,11 @@ const index = () => {
 
   useEffect(() => {
     setvotedData([
-      {name: "Shadab",votes: 21},
+      {name: "Shadab",votes: 321},
       {name: "Iqra",votes: 33},
       {name: "Rahul",votes: 44},
       {name: "Sakshi",votes: 1},
-      {name: "Harshita",votes: 54},
+      {name: "Harshita",votes: 3},
     ])
   }, [])
   
@@ -51,6 +53,7 @@ const index = () => {
         let last = data.tokens[data.tokens.length - 1];
         setlastToken(last)
         setfetchGraph(true)
+        setisLoading(false)
       }
     } catch (error) {
       console.log(error);
@@ -60,11 +63,15 @@ const index = () => {
     callData()
   }, [])
 
+  if (typeof window !== 'undefined' && election_manager_data.length == 0) {
+    router.push('./super_admin_dashboard_2412/Login')
+    }
 
   return (
     <>
       <AdminHeader />
-      <main>
+      {
+        isLoading ? '' : <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <h1 className='text-4xl text-gray-300 font-bold mb-5 ml-2'>Dashboard</h1>
           <div className="grid grid-rows-2 md:grid-rows-1 grid-flow-col gap-4 p-2">
@@ -118,6 +125,7 @@ const index = () => {
           
         </div>
       </main>
+      }
     </>
 
   )

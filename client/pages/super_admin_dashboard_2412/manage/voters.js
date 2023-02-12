@@ -13,7 +13,7 @@ const candidates = () => {
       dataIndex: 'voterId',
       key: 'voterId',
       sorter: (a, b) => a.voterId.localeCompare(b.voterId),
-      width: 100
+      width: 100,
     },
     {
       title: 'First Name',
@@ -40,13 +40,13 @@ const candidates = () => {
       title: 'votingRights',
       dataIndex: 'votingRights',
       key: 'votingRights',
-      sorter: (a, b) => a.votingRights.localeCompare(b.votingRights),
+      width: 150
     },
     {
       title: 'votesCast',
       dataIndex: 'votesCast',
       key: 'votesCast',
-      sorter: (a, b) => a.votesCast.localeCompare(b.votesCast),
+      width: 100
     },
     {
       title: 'Action',
@@ -57,10 +57,11 @@ const candidates = () => {
           <Button onClick={() => handleDelete(record._id)} className="text-white bg-red-500 border-none hover:bg-red-500 hover:text-white ml-2">Delete</Button>
         </>
       ),
+      width:200
     },
   ];
 
-  
+
   const [form] = Form.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedKey, setSelectedKey] = useState(null);
@@ -70,27 +71,27 @@ const candidates = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  
+
   useEffect(() => {
     const callVoter = async () => {
       try {
-          const req = await fetch('/getAllVoter' , {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-          })
+        const req = await fetch('/getAllVoter', {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
           .then(response => response.json())
           .then(jsonData => { setData(jsonData); setLoading(false) })
           .catch(error => console.error(error))
-          
-      } catch (error) {
-          console.log(error);
-      }
-  }
 
-  callVoter();
-}, [])
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    callVoter();
+  }, [])
 
 
   const handlePageChange = (page) => {
@@ -104,7 +105,7 @@ const candidates = () => {
   }
 
   function handleUpdate(key) {
-    const selectedRow = data.find(item => item._id   === key);
+    const selectedRow = data.find(item => item._id === key);
     form.setFieldsValue(selectedRow);
     setModalVisible(true);
     setSelectedKey(key);
@@ -119,25 +120,25 @@ const candidates = () => {
   const handleDeleteModalOk = () => {
     setData(data.filter((item) => item._id !== selectedKey));
     setDeleteModalVisible(false);
-    const DeleteCandidate = async () => {
+    const deleteVoter = async () => {
       try {
-        const res = await fetch("/delete_candidate", {
+        const res = await fetch("/delete_voter", {
           method: "POST",
           headers: {
-              "Content-Type" : "application/json"
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-              selectedKey
+            selectedKey
           })
-      })
+        })
 
-      const data = await res.json();
-      // console.log(data)
-      if(data.status == 200) {
-        message.success("Candidate Deleted Successfully")
-      }else{
-        message.error("Something Went Wrong")
-      }
+        const data = await res.json();
+        // console.log(data)
+        if (data.status == 200) {
+          message.success("Voter Deleted Successfully")
+        } else {
+          message.error("Something Went Wrong")
+        }
 
       } catch (error) {
         console.log(error)
@@ -145,8 +146,8 @@ const candidates = () => {
     }
 
     // Caling Add Candidate Function
-    DeleteCandidate();
-    
+    deleteVoter();
+
   };
 
   const handleDeleteModalCancel = () => {
@@ -159,7 +160,7 @@ const candidates = () => {
       .then(values => {
         form.resetFields();
         setModalVisible(false);
-        
+        console.log(selectedKey);
         if (selectedKey === null) {
           setData([
             ...data,
@@ -169,7 +170,7 @@ const candidates = () => {
             },
           ]);
 
-          const AddVoter = async () => {
+          const addVoters = async () => {
             try {
               const res = await fetch("/add_voter", {
                 method: "POST",
@@ -184,8 +185,10 @@ const candidates = () => {
             const data = await res.json();
             // console.log(data)
             if(data.status == 200) {
-              message.success("Voter Added Successfully")
-            }else{
+              message.success("Voter's Added Successfully")
+            }else if(data.status == 400) {
+              message.error("Voter's Already Exists")
+            } else{
               message.error("Something Went Wrong")
             }
 
@@ -195,49 +198,50 @@ const candidates = () => {
           }
 
           // Caling Add Candidate Function
-          AddVoter();
+          addVoters();
 
         } else {
-          console.log('update');
           setData(
             data.map(item =>
               item._id === selectedKey ? { ...item, ...values } : item
-              )
-              );
-            }
+            )
+          );
 
-            // console.log({selectedKey, values})
-            // Update Candidate Request 
-            const updateVoter = async () => {
-              try {
-                const res = await fetch("/update_voter", {
-                  method: "POST",
-                  headers: {
-                      "Content-Type" : "application/json"
-                  },
-                  body: JSON.stringify({
-                      selectedKey, values
-                  })
+          // console.log({selectedKey, values})
+          // Update Candidate Request 
+          const updateVoter = async () => {
+            try {
+              const res = await fetch("/update_voter", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  selectedKey, values
+                })
               })
-  
+
               const data = await res.json();
               // console.log(data)
-              if(data.status == 200) {
+              if (data.status == 200) {
                 message.success("Voter Updated Successfully")
-              }else{
+              } else {
                 message.error("Something Went Wrong")
               }
-  
-              } catch (error) {
-                console.log(error)
-              }
-            }
-  
-            // Caling Add Candidate Function
-            updateVoter();
 
-          })
-         
+            } catch (error) {
+              console.log(error)
+            }
+          }
+
+          // Caling Add Candidate Function
+          updateVoter();
+        }
+
+
+
+      })
+
       .catch(info => {
         console.log('Validate Failed:', info);
       });
@@ -260,83 +264,90 @@ const candidates = () => {
           <p class="text-slate-500 hover:text-slate-600">Manage voter's</p>
         </nav>
 
-       {
-        Loading ? "Table Loading" :
-        <>
-           <div className='flex justify-center'>        
-          <Button onClick={handleCreate} className="text-gray-300">Add New Voter</Button>
-        </div>
-       <div className='table-responsive'>
-        <Table columns={columns}
-            dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
-            pagination={false}
-            className="table-responsive w-full mt-10"
-            rowClassName="bg-slate-800 no-hover text-gray-200 hover:text-slate-400 rounded-none border-b-2 border-zinc-300" />
+        {
+          Loading ? "Table Loading" :
+            <>
+              <div className='flex justify-center'>
+                <Button onClick={handleCreate} className="text-gray-300">Add New Voter</Button>
+              </div>
+              <div className='table-responsive'>
+                <Table columns={columns}
+                  dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+                  pagination={false}
+                  className="table-responsive w-full mt-10"
+                  rowClassName="bg-slate-800 no-hover text-gray-200 hover:text-slate-400 rounded-none border-b-2 border-zinc-300" />
 
-          <div className="mt-4">
-            <Pagination
-              current={currentPage}
-              onChange={handlePageChange}
-              pageSize={pageSize}
-              total={data.length}
-            />
-          </div>
-       </div>
-        <Modal
-          title={selectedKey === null ? 'Create Candidate' : 'Update Candidate'}
-          visible={modalVisible}
-          onOk={handleSave}
-          onCancel={() => setModalVisible(false)}
-          okButtonProps={{ disabled: false }}
+                <div className="mt-4">
+                  <Pagination
+                    current={currentPage}
+                    onChange={handlePageChange}
+                    pageSize={pageSize}
+                    total={data.length}
+                  />
+                </div>
+              </div>
+              <Modal
+                title={selectedKey === null ? 'Create Candidate' : 'Update Candidate'}
+                visible={modalVisible}
+                onOk={handleSave}
+                onCancel={() => setModalVisible(false)}
+                okButtonProps={{ disabled: false }}
 
-        >
-          <Form form={form} className="mt-2">
-            <Form.Item name="firstName" label="First Name">
-              <Input />
-            </Form.Item>
-            <Form.Item name="lastName" label="lastName">
-              <Input />
-            </Form.Item>
-            <Form.Item name="email" label="email">
-              <Input />
-            </Form.Item>
-            <Form.Item name="votingRights" label="votingRights">
-              <Input />
-            </Form.Item>
-            <Form.Item name="dateOfBirth" label="dateOfBirth">
-              <Input />
-            </Form.Item>
-            <Form.Item name="address" label="address">
-              <Input />
-            </Form.Item>
-            <Form.Item name="city" label="city">
-              <Input />
-            </Form.Item>
-            <Form.Item name="state" label="state">
-              <Input />
-            </Form.Item>
-            <Form.Item name="zipCode" label="zipCode">
-              <Input />
-            </Form.Item>
-            <Form.Item name="phoneNumber" label="phoneNumber">
-              <Input />
-            </Form.Item>
-            <Form.Item name="isVerified" label="isVerified">
-              <Input />
-            </Form.Item>
-          </Form>
-        </Modal>
+              >
+                <Form form={form} className="mt-2">
+                  <Form.Item name="voterId" label="Voter Id">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="firstName" label="First Name">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="lastName" label="lastName">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="email" label="email">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="votingRights" label="votingRights">
+                    <Input />
+                  </Form.Item>
+                  <div className='container mt-6 mb-6 text-sm text-gray-300'>
+                    <h3>Visit the <a href="./candidates" className='text-sky-500' target="_blank">link</a> to pick the voter's voting option.</h3>
+                    <p>For Example: After Opening the link copy canidate id and paste in above box if multiple id's are there then seperate them with comma(,)</p>
+                  </div>
+                  <Form.Item name="dateOfBirth" label="dateOfBirth">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="address" label="address">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="city" label="city">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="state" label="state">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="zipCode" label="zipCode">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="phoneNumber" label="phoneNumber">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="isVerified" label="isVerified">
+                    <Input />
+                  </Form.Item>
+                </Form>
+              </Modal>
 
-        <Modal
-          title="Confirm Delete"
-          visible={deleteModalVisible}
-          onOk={handleDeleteModalOk}
-          onCancel={handleDeleteModalCancel}
-        >
-          <p>Are you sure you want to delete this row?</p>
-        </Modal>
-        </>
-       }
+              <Modal
+                title="Confirm Delete"
+                visible={deleteModalVisible}
+                onOk={handleDeleteModalOk}
+                onCancel={handleDeleteModalCancel}
+              >
+                <p>Are you sure you want to delete this row?</p>
+              </Modal>
+            </>
+        }
 
       </div>
     </main>

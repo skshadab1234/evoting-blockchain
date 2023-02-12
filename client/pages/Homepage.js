@@ -23,21 +23,6 @@ const Homepage = () => {
         <img class="w-full dark:hidden" src="../undraw_voting_nvu7.png" alt="herosection image" />
         <img class="w-full hidden dark:block" src="../undraw_voting_nvu7.png" alt="herosection image" />
       </div>
-
-      <div className='grid grid-cols-3 gap-10 glassmorphism w-7/12 mx-auto py-5 px-10'>
-        <div className=''>
-          <h2 className='font-bold text-[#371B58] text-3xl'>10k</h2>
-          <p className='font-bold text-sm text-[#7858A6]'>Users Joined</p>
-        </div>
-        <div className=''>
-          <h2 className='font-bold text-[#371B58] text-3xl'>100+</h2>
-          <p className='font-bold text-sm text-[#7858A6]'>Colleges Registered</p>
-        </div>
-        <div className=''>
-          <h2 className='font-bold text-[#371B58] text-3xl'>200+</h2>
-          <p className='font-bold text-sm text-[#7858A6]'>College Politics Executed</p>
-        </div>
-      </div>
     </>
   )
 }

@@ -164,7 +164,7 @@ const candidates = () => {
             },
           ]);
 
-          const AddCandidate = async () => {
+          const addVoter = async () => {
             try {
               const res = await fetch("/add_candidate", {
                 method: "POST",
@@ -190,7 +190,7 @@ const candidates = () => {
           }
 
           // Caling Add Candidate Function
-          AddCandidate();
+          addVoter();
 
         } else {
           console.log('update');
@@ -199,37 +199,37 @@ const candidates = () => {
               item._id === selectedKey ? { ...item, ...values } : item
               )
               );
+              // console.log({selectedKey, values})
+              // Update Candidate Request 
+              const updateCandidate = async () => {
+                try {
+                  const res = await fetch("/update_candidate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify({
+                        selectedKey, values
+                    })
+                })
+    
+                const data = await res.json();
+                // console.log(data)
+                if(data.status == 200) {
+                  message.success("Candidate Updated Successfully")
+                }else{
+                  message.error("Something Went Wrong")
+                }
+    
+                } catch (error) {
+                  console.log(error)
+                }
+              }
+    
+              // Caling Add Candidate Function
+              updateCandidate();
             }
 
-            // console.log({selectedKey, values})
-            // Update Candidate Request 
-            const updateCandidate = async () => {
-              try {
-                const res = await fetch("/update_candidate", {
-                  method: "POST",
-                  headers: {
-                      "Content-Type" : "application/json"
-                  },
-                  body: JSON.stringify({
-                      selectedKey, values
-                  })
-              })
-  
-              const data = await res.json();
-              // console.log(data)
-              if(data.status == 200) {
-                message.success("Candidate Updated Successfully")
-              }else{
-                message.error("Something Went Wrong")
-              }
-  
-              } catch (error) {
-                console.log(error)
-              }
-            }
-  
-            // Caling Add Candidate Function
-            updateCandidate();
 
           })
          
