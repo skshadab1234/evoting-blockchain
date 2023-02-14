@@ -60,6 +60,22 @@ module.exports = () => {
         source: "/admin_all",
         destination: `${url}/admin_all`,
       },
+      {
+        source: "/getAllPositions",
+        destination: `${url}/getAllPositions`,
+      },
+      {
+        source: "/add_position",
+        destination: `${url}/add_position`,
+      },
+      {
+        source: "/update_position",
+        destination: `${url}/update_position`,
+      },
+      {
+        source: "/delete_position",
+        destination: `${url}/delete_position`,
+      },
 
       // Users 
       // {

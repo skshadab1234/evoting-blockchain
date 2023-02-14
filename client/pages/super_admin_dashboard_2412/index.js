@@ -50,6 +50,9 @@ const index = () => {
         throw new Error(data.error);
       } else {
         setelection_manager_data(data);
+        if (typeof window !== 'undefined' && data.length == 0) {
+           router.push('./super_admin_dashboard_2412/Login')
+        }
         let last = data.tokens[data.tokens.length - 1];
         setlastToken(last)
         setfetchGraph(true)
@@ -63,9 +66,7 @@ const index = () => {
     callData()
   }, [])
 
-  if (typeof window !== 'undefined' && election_manager_data.length == 0) {
-    router.push('./super_admin_dashboard_2412/Login')
-    }
+  
 
   return (
     <>

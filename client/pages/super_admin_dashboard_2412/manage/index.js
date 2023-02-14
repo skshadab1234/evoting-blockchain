@@ -4,9 +4,9 @@ import AdminHeader from '../Header/AdminHeader'
 
 const index = () => {
     const [stats, setstats] = useState([
-        { id: 1, stat_name: 'Candidates', href: "", visit: 'candidates', haveChart: false },
-        { id: 2, stat_name: 'Positions', href: "", visit: "100K", haveChart: true },
         { id: 3, stat_name: 'Voters', href: "", visit: "voters", haveChart: true },
+        { id: 2, stat_name: 'Positions', href: "", visit: "positions", haveChart: true },
+        { id: 1, stat_name: 'Candidates', href: "", visit: 'candidates', haveChart: false },
         { id: 4, stat_name: 'Votes', href: "", visit: "215k", haveChart: true },
     
       ])

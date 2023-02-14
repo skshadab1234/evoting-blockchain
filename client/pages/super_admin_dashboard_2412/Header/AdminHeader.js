@@ -55,10 +55,9 @@ const AdminHeader = () => {
   const [navigation, setnavigation] = useState([
     { id: 1, name: 'Dashboard', href: `${AdminUrl}`, current: false },
     { id: 2, name: 'Manage', href: `${AdminUrl}/manage/`, current: false },
-    { id: 3, name: 'Clubs and Organizations', href: `${AdminUrl}/clubs`, current: false },
-    { id: 4, name: 'Calendar', href: '#', current: false },
-    { id: 5, name: 'News Feed', href: '#', current: false },
-    { id: 6, name: 'Feedback', href: '#', current: false },
+    { id: 3, name: 'Calendar', href: '#', current: false },
+    { id: 4, name: 'News Feed', href: '#', current: false },
+    { id: 5, name: 'Feedback', href: '#', current: false },
   ])
 
   const userNavigation = [
@@ -98,6 +97,10 @@ const AdminHeader = () => {
     }
     else if (`${AdminUrl}/manage/voters` == pathname) {
       setTitle("Manage Voters")
+      handleChange(2, true)
+    }
+    else if (`${AdminUrl}/manage/positions` == pathname) {
+      setTitle("Manage Positions")
       handleChange(2, true)
     }
   }, [Title])

@@ -16,6 +16,13 @@ const candidates = () => {
       width: 100
     },
     {
+      title: 'ID',
+      dataIndex: '_id',
+      key: '_id',
+      sorter: (a, b) => a._id.localeCompare(b._id),
+      width: 100
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
