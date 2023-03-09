@@ -8,6 +8,8 @@ const Profile = ({ token }) => {
   const router = useRouter();
   const [userdata, setuserdata] = useState({})
   const [isLoading, setLoading] = useState(true)
+  const [logged, setlogged] = useState('')
+
   const styles =
   {
     heading: "font-bold md:text-[64px] md:leading-[70px] text-[34px] leading-[46px] tracking-[-0.5%] text-center mt-3",
@@ -24,7 +26,7 @@ const Profile = ({ token }) => {
 
   const callProfilePage = async () => {
     try {
-      const response = await fetch("/profile", {
+      const response = await fetch("/voter_profile", {
         method: "GET",
         headers: {
           Accept: "appllication/json",
@@ -35,11 +37,13 @@ const Profile = ({ token }) => {
       )
 
       const data = await response.json();
-      setuserdata(data);
-      setLoading(false)
-      if (!response.status === 200) {
-        throw new Error(response.error);
-        router.push("/Login")
+      if (data.status != 200) {
+        setlogged('err_logged')
+        throw new Error(data.error);
+      } else {
+        setuserdata(data.data);
+        setLoading(false)
+        setlogged('logged')
       }
     } catch (error) {
       console.log(error);
@@ -56,7 +60,7 @@ const Profile = ({ token }) => {
   return (
     <div className='md:container md:mx-auto'>
       <Head>
-          <title>{userdata.candidate_name} Profile - CESA -CSMIT</title>
+          <title>{userdata.firstName} Profile - CESA -CSMIT</title>
           <link rel="icon" type="image/x-icon"  href='logo-sm.jpg' />
       </Head>
       <Header token={token} />
@@ -83,7 +87,7 @@ const Profile = ({ token }) => {
               <div className="w-full md:w-3/12 md:mx-2">
                 <div className="my-4">
                   <div className="image overflow-hidden flex justify-center">
-                    <h1 className='text-white cursor-default select-none hover:bg-gradient-to-l bg-gradient-to-r from-[#0099CC] to-[#9933FF] flex justify-center text-8xl font-bold p-6 rounded-full w-52 place-items-center h-48'>{getFirstString(userdata.firstname)+""+getFirstString(userdata.lastname)}</h1>
+                    <h1 className='text-white cursor-default select-none hover:bg-gradient-to-l bg-gradient-to-r from-[#0099CC] to-[#9933FF] flex justify-center text-8xl font-bold p-6 rounded-full w-52 place-items-center h-48'>{getFirstString(userdata.firstName)+""+getFirstString(userdata.lastName)}</h1>
                   </div>
                 </div>
               </div>
@@ -93,7 +97,7 @@ const Profile = ({ token }) => {
                     <div className="grid md:grid-cols-3">
                       <div className="grid grid-cols-1">
                         <div className="px-4 py-2 text-gray-500 font-semibold">Full Name</div>
-                        <div className="px-4 py-2">{userdata.firstname+" "+userdata.middlename+" "+userdata.lastname}</div>
+                        <div className="px-4 py-2">{userdata.firstName+" "+userdata.lastName}</div>
                       </div>
 
                       <div className="grid grid-cols-1">
@@ -102,28 +106,16 @@ const Profile = ({ token }) => {
                           <div >{userdata.email}</div>
                         </div>
                       </div>
-
-                      <div className="grid grid-cols-1">
-                        <div className="px-4 py-2 text-gray-500 font-semibold">Position</div>
-                        <div className="px-4 py-2">{userdata.position}</div>
-                      </div>
-
-                    </div>
-
-                    <div className="grid md:grid-cols-3">
-                      <div className="grid grid-cols-1">
-                        <div className="px-4 py-2 text-gray-500 font-semibold">Joined Date</div>
-                        <div className="px-4 py-2">{moment(userdata.joined_this_position_on).format('LL')}</div>
-                      </div>
-
                       <div className="grid grid-cols-1">
                         <div className="px-4 py-2 text-gray-500 font-semibold">Profile Status</div>
                         <div className="px-4 py-2">
-                          <div>{(userdata.status > 0) ? <p className='text-green-500'>Active</p> : <p className='text-red-500'>Blocked</p> }</div>
+                          <div>{(userdata.isVerified) ? <p className='text-green-500'>Active</p> : <p className='text-red-500'>Blocked</p> }</div>
                         </div>
                       </div>
 
                     </div>
+
+                   
                   </div>
                 </div>
               </div>
@@ -137,5 +129,5 @@ const Profile = ({ token }) => {
 export default Profile
 
 export function getServerSideProps({ req, res }) {
-  return { props: { token: req.cookies.jwtoken || '' } }
+  return { props: { token: req.cookies.voter_evotingLoginToken || '' } }
 }

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 const Logout = () => {
     const router = useRouter();
     useEffect(() => {
-        fetch("/logout", {
+        fetch("/voter_logout", {
             method: "GET",
             headers: {
               Accept: "appllication/json",

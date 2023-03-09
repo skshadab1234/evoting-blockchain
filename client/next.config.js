@@ -76,12 +76,24 @@ module.exports = () => {
         source: "/delete_position",
         destination: `${url}/delete_position`,
       },
+      {
+        source: "/updatePositioCandidatesList",
+        destination: `${url}/updatePositioCandidatesList`,
+      },
 
       // Users 
-      // {
-      //   source: "/login",
-      //   destination: "http://localhost:3001/login",
-      // },
+      {
+        source: "/login",
+        destination: "http://localhost:3001/login",
+      },
+      {
+        source: "/voter_profile",
+        destination: "http://localhost:3001/voter_profile",
+      },
+      {
+        source: "/voter_logout",
+        destination: "http://localhost:3001/voter_logout",
+      },
     ];
     
   };

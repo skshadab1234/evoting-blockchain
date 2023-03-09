@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Header from './components/Header/Header'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import Head from 'next/head'
 
-const Login = ({token}) => {
+const Login = ({ token }) => {
     const router = useRouter();
     const [loggingLoad, setloggingLoad] = useState(false)
     const [inputsvalues, setinputsvalues] = useState({
-        email: "",
+        voterId: "",
         password: "",
     })
 
@@ -25,7 +24,7 @@ const Login = ({token}) => {
 
     const LoginInput = [
         // { id: "year_sem", label: "Sem/Year", name: "year_sem", type: "text" },
-        { id: "email", label: "Email", name: "email", type: "email" },
+        { id: "voterId", label: "Voter Id", name: "voterId", type: "text" },
         { id: "password", label: "Password", name: "password", type: "password" },
     ]
 
@@ -34,131 +33,136 @@ const Login = ({token}) => {
         const value = e.target.value
         setinputsvalues({ ...inputsvalues, [name]: value })
     }
-    
+
     const LoginUser = async (e) => {
         e.preventDefault()
-        const { email, password } = inputsvalues
-        if(inputsvalues.email == "" || inputsvalues.password == ""){
+        const { voterId, password } = inputsvalues
+        if (inputsvalues.voterId == "" || inputsvalues.password == "") {
             Swal.fire(
                 {
                     title: "<div class='text-red-500 text-xl md:text-2xl'>All Fields are required</div>",
                     icon: "error"
                 }
-              )
-            }else{
+            )
+        } else {
             setloggingLoad(true)
             const res = await fetch("/login", {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email, password
+                    voterId, password
                 })
             })
 
             const data = await res.json();
             setloggingLoad(false)
-            if(data.message == "Logged Successfully") {
+            if (data.message == "Logged Successfully") {
                 let timerInterval
                 Swal.fire({
-                title: '<p class="text-green-500">Logged Successfully</p>',
-                icon: 'success',
-                timer: 3000,
-                timerProgressBar: true,
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                        router.push("/")
-                    }, 2500)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
+                    title: '<p class="text-green-500">Logged Successfully</p>',
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            router.push("/")
+                        }, 2500)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
                 })
 
-            }else{
+            } else {
                 Swal.fire(
                     {
                         title: "<div class='text-red-500 text-xl md:text-2xl'>Invalid Credentials</div>",
                         icon: "error"
                     }
-                  )
+                )
             }
         }
     }
 
     // Checking user login or not 
-    
-  const CallUserData = async () => {
-    try {
-      const response = await fetch("/getdata", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
-      }
-      )
 
-      const data = await response.json();
-      setuserdata(data);
-      setPrevent(true)
-      
-    } catch (error) {
-      console.log(error);
+    const CallUserData = async () => {
+        try {
+            const response = await fetch("/voter_profile", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }
+            )
 
+            const data = await response.json();
+            setuserdata(data);
+            setPrevent(true)
+
+        } catch (error) {
+            console.log(error);
+
+        }
     }
-  }
 
-  useEffect(() => {
-    CallUserData()
-  }, [])
+    useEffect(() => {
+        CallUserData()
+    }, [])
 
-  if(Prevent) {
-    router.push("/")
-  }
+    if (Prevent) {
+        router.push("/")
+    }
 
     return (
         <div className='md:container md:mx-auto'>
-             <Head>
+            <Head>
                 <title>Login - CESA -CSMIT</title>
-                <link rel="icon" type="image/x-icon"  href='logo-sm.jpg' />
+                <link rel="icon" type="image/x-icon" href='logo-sm.jpg' />
             </Head>
-            <Header token={token}/>
-            <div className='flex justify-center mt-8'>
-                {/* Login Section  */}
-                <h1 className={styles.heading + " bg-clip-text text-transparent bg-gradient-to-r from-[#4ca5ff] to-[#b673f8]"}>LOGIN</h1>
-            </div>
-            {/* Login Form DISPLAY  */}
-            <div className='m-auto w-4/5 md:w-2/5 dark_theme h-3/5 p-10 mt-5 rounded-lg text-white'>
-                {/* Login Input Fields */}
-                <form method='post' onSubmit={LoginUser}>
-                    {
-                        LoginInput.map((input, i) => {
-                            var disabled = ''
-                            if (input.id == "year_sem") var disabled = 'disabled';
+            <div className='w-full mx-auto h-screen flex justify-center items-center'>
+                <div className='w-[400px] bg-[#1E293B] h-[450px] border-2 border-[#16F6E9] rounded-br-3xl rounded-tl-3xl  '>
+                    <div className='flex justify-center h-14 p5-'>
+                        <div className='h-24 w-24 text-center  flex justify-center items-center rounded-full relative bottom-10 bg-slate-800  border border-[#16F6E9] '>
+                            <img src="Logo.png" alt="" className='w-20  relative bottom-15' />
+                        </div>
+                    </div>
+                    <h2 className='mt-4 text-center text-3xl font-medium text-gray-980  text-gray-200 underline-offset-4 afterLine relative' >Voter Login</h2>
 
-                            return <>
-                                <div className="mb-4">
-                                    <label className={styles.label} htmlFor={input.id}>
-                                        {input.label}
-                                    </label>
-                                    <input
-                                        disabled={disabled}
-                                        value={inputsvalues.name}
-                                        onChange={handleChange}
-                                        className={styles.input} id={input.id} name={input.name} type={input.type} />
-                                </div>
-                            </>
-                        })
-                    }
+                    <form method='post' onSubmit={LoginUser} className=''>
 
-                    {/* Button Proceed to Login Form */}
-                    <div className=" mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-center">
-                        <div className="rounded-md shadow">
-                            <button className=" w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                        <div className='flex justify-center mt-10 '>
+                            <div>
                                 {
+                                    LoginInput.map((input, i) => {
+                                        return <>
+                                            <div className="mb-4">
+                                                <label className={"text-[#16F6C9] text-sm"} htmlFor={input.id}>
+                                                    {input.label}
+                                                </label>
+                                                <input
+                                                    value={inputsvalues.name}
+                                                    onChange={handleChange}
+                                                    className={"bg-[#0F172A] w-80 mt-2 rounded-br-2xl rounded-tl-2xl appearance-none  relative block  px-3 py-2 border  placeholder-white text-white rounded-t-md mb-2  border-[#16F6E9] "} id={input.id} name={input.name} type={input.type} />
+                                            </div>
+                                        </>
+                                    })
+                                }
+
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div className='flex justify-center'>
+                            <button type='submit' className='bg-[#0F172A] w-48 mt-6  text-white  pt-1 w- group relative w-full flex justify-center py-2 px-4 border border-[#16F6E9] focus:ring-offset-2  '  >
+                                <b>   {
                                     loggingLoad ? <>
                                         <div role="status">
                                             <svg className="inline mr-2 w-8 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -168,11 +172,14 @@ const Login = ({token}) => {
                                             <span className="sr-only">Loading...</span>
                                         </div> Login
                                     </> : "Login"
-                                }
+                                } </b>
                             </button>
                         </div>
-                    </div>
-                </form >
+
+                    </form>
+
+                </div>
+
             </div>
         </div>
     )
@@ -182,6 +189,6 @@ export default Login
 
 
 
-export function getServerSideProps({ req, res}) {
-    return { props: {token: req.cookies.jwtoken || ''}}
+export function getServerSideProps({ req, res }) {
+    return { props: { token: req.cookies.jwtoken || '' } }
 }

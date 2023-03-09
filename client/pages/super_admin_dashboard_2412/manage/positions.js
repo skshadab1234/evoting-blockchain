@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import AdminHeader from '../Header/AdminHeader'
 import Link from 'next/link';
-import { Table, Button, Modal, Form, Input, message, Pagination } from 'antd';
-
+import { Table, Button, Modal, Form, Input, message, Pagination, Radio } from 'antd';
+import moment from 'moment'
 
 const candidates = () => {
   const AdminUrl = "/super_admin_dashboard_2412"
@@ -15,16 +15,17 @@ const candidates = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
       width: 150
     },
-   {
-     title: 'Canidates',
-     key: 'candidate',
-     render: (text, record) => (
-       <>
-         <Button onClick={() => handleUpdate(record._id)} className="text-white bg-green-500 border-none hover:bg-green-600 hover:text-white ">Add Candidate's</Button>
-       </>
-     ),
-   },
- 
+    {
+      title: 'Candidates',
+      key: 'candidate',
+      render: (text, record) => (
+        <>
+          <Button onClick={() => handleCandidateCRUD(record._id, record.name)} className="text-white bg-green-500 border-none m-2 hover:bg-green-600 hover:text-white ">Add</Button>
+          <Button onClick={() => handleViewCandidate(record._id, record.candidates)} className="text-white bg-primary-500 border-none m-2 hover:bg-green-600 hover:text-white ">View ({record.candidates?.length})</Button>
+        </>
+      ),
+    },
+
     {
       title: 'Action',
       key: 'action',
@@ -34,7 +35,7 @@ const candidates = () => {
           <Button onClick={() => handleDelete(record._id)} className="text-white bg-red-500 border-none hover:bg-red-500 hover:text-white ml-2">Delete</Button>
         </>
       ),
-      width:200
+      width: 200
     },
   ];
 
@@ -44,10 +45,12 @@ const candidates = () => {
   const [selectedKey, setSelectedKey] = useState(null);
   const [data, setData] = useState();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [CandidateModal, setCandidateModal] = useState(false);
+  const [handleName, sethandleName] = useState('');
   const [Loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [statusVal, setstatusVal]= useState('')
   const pageSize = 5;
-
 
   useEffect(() => {
     const callVoter = async () => {
@@ -68,6 +71,7 @@ const candidates = () => {
     }
 
     callVoter();
+
   }, [])
 
 
@@ -83,7 +87,8 @@ const candidates = () => {
 
   function handleUpdate(key) {
     const selectedRow = data.find(item => item._id === key);
-    form.setFieldsValue(selectedRow);
+    form.setFieldsValue({name:selectedRow.name, date:selectedRow.date != undefined ? moment(selectedRow.date).format('YYYY-MM-DD') : '',time:selectedRow.time != undefined ? moment(selectedRow.date+" "+selectedRow.time).format('hh:mm') : ''});
+    setstatusVal(selectedRow.status)
     setModalVisible(true);
     setSelectedKey(key);
   }
@@ -131,6 +136,7 @@ const candidates = () => {
     setDeleteModalVisible(false);
   };
 
+
   function handleSave() {
     form
       .validateFields()
@@ -152,23 +158,23 @@ const candidates = () => {
               const res = await fetch("/add_position", {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json"
+                  "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    values
+                  values
                 })
-            })
+              })
 
-            const data = await res.json();
-            // console.log(data)
-            if(data.status == 200) {
-              message.success("Position's Added Successfully")
-              console.log(data);
-            }else if(data.status == 400) {
-              message.error("Positions's Already Exists")
-            } else{
-              message.error("Something Went Wrong")
-            }
+              const data = await res.json();
+              // console.log(data)
+              if (data.status == 200) {
+                message.success("Position's Added Successfully")
+                console.log(data);
+              } else if (data.status == 400) {
+                message.error("Positions's Already Exists")
+              } else {
+                message.error("Something Went Wrong")
+              }
 
             } catch (error) {
               console.log(error)
@@ -225,6 +231,126 @@ const candidates = () => {
       });
   }
 
+  const candidateColumn = [
+    {
+      title: 'Avatar',
+      dataIndex: 'image',
+      key: 'image',
+      render: image => <img src={image} style={{ width: 50, height: 50, borderRadius: 50 }} />,
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name'
+    },
+    {
+      title: 'Party',
+      dataIndex: 'party',
+      key: 'party'
+    },
+  ];
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [candidateData, setcandidateData] = useState([])
+  const [filteredCandidate, setfilteredCandidate] = useState([])
+  const [viewCandidateModal,setViewCandidateModal] = useState(false)
+
+  useEffect(() => {
+    const callCandidate = async () => {
+      try {
+        const req = await fetch('/getAllCandidate', {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+          .then(response => response.json())
+          .then(jsoncandidateData => {
+            const newcandidateData = jsoncandidateData.map((item, index) => ({ ...item, key: item._id }));
+            setcandidateData(newcandidateData);
+            setLoading(false);
+          })
+          .catch(error => console.error(error))
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    callCandidate();
+  }, [])
+
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+    ],
+  };
+
+  const handleCandidateCRUD = (key, name) => {
+    setCandidateModal(true)
+    sethandleName(name)
+    setSelectedKey(key)    
+  }
+
+  const handleCandidateOk = () => {
+    setCandidateModal(false)
+    if (selectedRowKeys.length > 0) {
+      let addCandidatetoPosition = async () => {
+        try {
+          const res = await fetch("/updatePositioCandidatesList", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              selectedRowKeys, selectedKey
+            })
+          })
+
+          const data = await res.json();
+          // console.log(data)
+          if (data.status == 200) {
+            message.success(data.message)
+          } else if (data.status == 500) {
+            message.success(data.message)
+          } else if (data.status == 404) {
+            message.success(data.message)
+          }else {
+            message.error("Something Went Wrong")
+          }
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      // Caling Add Candidate Function
+      addCandidatetoPosition()
+    }else{
+      message.error("No Candidate Selected")
+    }
+
+  }
+  const handleCandidateCancel = () => {
+    setCandidateModal(false)
+    setViewCandidateModal(false)
+  }
+
+  const handleViewCandidate = (key,candidates) => {
+
+    setfilteredCandidate(candidateData.filter(candidate => candidates?.includes(candidate._id)));
+    setViewCandidateModal(true)
+  }
+  
+  console.log(statusVal);
   return (
     <main>
       <AdminHeader />
@@ -272,10 +398,22 @@ const candidates = () => {
                 okButtonProps={{ disabled: false }}
 
               >
-                <Form form={form} className="mt-2">
+                <Form form={form} className="mt-2" initialValues={{ status: statusVal.toString() }}>
                   <Form.Item name="name" label="Position Name">
                     <Input />
                   </Form.Item>
+                  <Form.Item name="date" label="date">
+                    <Input type='date' />
+                  </Form.Item>
+                  <Form.Item name="time" label="time">
+                    <Input type='time' />
+                  </Form.Item>
+                  <Form.Item name="status" label="Status">
+                  <Radio.Group>
+                    <Radio.Button value="1">Active</Radio.Button>
+                    <Radio.Button value="0">Blocked</Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
                 </Form>
               </Modal>
 
@@ -286,6 +424,24 @@ const candidates = () => {
                 onCancel={handleDeleteModalCancel}
               >
                 <p>Are you sure you want to delete this row?</p>
+              </Modal>
+
+              <Modal
+                title={`Add/Remove Candidates for ${handleName}`}
+                visible={CandidateModal}
+                onOk={handleCandidateOk}
+                onCancel={handleCandidateCancel}
+              >
+                <Table rowSelection={rowSelection} columns={candidateColumn} dataSource={candidateData} />
+              </Modal>
+              
+              <Modal
+                title={`List of Selected Candidate's for ${handleName}`}
+                visible={viewCandidateModal}
+                footer={null}
+                onCancel={handleCandidateCancel}
+              >``
+                <Table rowSelection={rowSelection} columns={candidateColumn} dataSource={filteredCandidate} />
               </Modal>
             </>
         }

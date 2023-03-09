@@ -148,6 +148,16 @@ top: 598.6px;
   background-color: transparent !important;
 }
 
+.afterLine::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 32%;
+  width: 150px;
+  height: 3px;
+  background-color: #ddd;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
