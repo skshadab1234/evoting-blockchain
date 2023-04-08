@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-
+import { formatAddress } from '../../utils'
+import { useStateContext } from '../../context'
 export default function Header({ token }) {
   const [userdata, setuserdata] = useState([])
   const [profileLoading, setProfileLoading] = useState(true)
   const [logged, setlogged] = useState('')
+  const {address,connect} = useStateContext()
   const callData = async () => {
     try {
       const response = await fetch("/voter_profile", {
@@ -48,13 +49,17 @@ export default function Header({ token }) {
             </Link>
             <div class="flex items-center lg:order-2">
               {
-                logged == 'logged' ? <Link href={"/Profile"}>
-                  <a class="flex text-white dark:text-white  font-medium rounded-lg text-sm px-4 
-                        lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"><div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-300">
-                      <p className="text-lg font-bold text-gray-600">{userdata.firstName.charAt(0)}</p>
-                    </div>
-                    <p className='relative top-[6px] left-3 text-gray-300'>{userdata.firstName}</p></a>
-                </Link> : logged == 'err_logged' ? 'Something Wrong' : <Link href={"/Login"}>
+                logged == 'logged' ?  <Link href={'/Profile'}>
+                <button type='button' class="flex items-center mt-2 space-x-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 2a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm4 13h-8v-1h8zm3-4H9V9h10z"/>
+                </svg>
+                <div>
+                    <div class="font-bold">Connected</div>
+                    <div class="text-sm">{formatAddress(address)}</div>
+                </div>
+            </button> 
+                </Link>  : logged == 'err_logged' ? 'Something Wrong' : <Link href={"/Login"}>
                   <a class="glassmorphism text-white dark:text-white  font-medium rounded-lg text-sm px-4 
                         lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                 </Link>

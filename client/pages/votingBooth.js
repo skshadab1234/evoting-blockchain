@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header/Header'
 
@@ -40,12 +41,12 @@ const votingBooth = ({ token }) => {
                             Make Your Voice Heard in the Upcoming Election
                         </p>
                     </div>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
+                    <div className='grid grid-cols-1 md:grid-cols-1 gap-4 '>
                         {
                             candidateData.map((item,index) => {
                                 return <>        
                                     <figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
-                                        <img class="w-48 h-40 object-contain  md:rounded-none rounded-full" src={item.image} alt="" />
+                                        <img class="w-48 h-48 object-cover  md:rounded-none rounded-full" src={item.image} alt="" />
                                         <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
                                             <blockquote>
                                                 <p class="text-lg font-medium">
@@ -60,6 +61,21 @@ const votingBooth = ({ token }) => {
                                                     {item.slogan}
                                                 </div>
                                             </figcaption>
+                                            <div className='md:flex justify-between'>
+                                                <div>
+                                                    <Link href="">
+                                                        <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Meet the Candidate</a>
+                                                    </Link>
+                                                    <Link href="">
+                                                        <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Watch Video</a>
+                                                    </Link>
+                                                </div>
+
+                                                {/* Vote Button  */}
+                                                <div>
+                                                    <button className='px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm'>Vote</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </figure>
                                 </>
