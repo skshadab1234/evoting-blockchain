@@ -5,7 +5,8 @@ import Head from 'next/head'
 import { useStateContext } from './context'
 
 import { formatAddress } from './utils'
-import { loader } from './assets'
+import { Loader } from './assets'
+
 const Login = ({ token }) => {
     const router = useRouter();
     const [loggingLoad, setloggingLoad] = useState(false)
@@ -15,7 +16,7 @@ const Login = ({ token }) => {
     })
     const { address, connect } = useStateContext();
     const [userdata, setuserdata] = useState({})
-
+    
     const [Prevent, setPrevent] = useState(false)
 
     const styles =
@@ -196,7 +197,7 @@ const Login = ({ token }) => {
                         </div>
 
                            {
-                            loggingLoad ? <loader /> :  <button type='submit' className='w-full'>
+                            loggingLoad ? <img src={Loader.src} width={100} /> :  <button type='submit' className='w-full'>
                             <div className='flex justify-center bg-[#16F6C9] mt-10 rounded-md p-2 ml-5 mr-5'>
                                     Login
                             </div>

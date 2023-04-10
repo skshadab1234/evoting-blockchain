@@ -49,17 +49,29 @@ export default function Header({ token }) {
             </Link>
             <div class="flex items-center lg:order-2">
               {
-                logged == 'logged' ?  <Link href={'/Profile'}>
-                <button type='button' class="flex items-center mt-2 space-x-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
-                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm4 13h-8v-1h8zm3-4H9V9h10z"/>
-                </svg>
-                <div>
-                    <div class="font-bold">Connected</div>
-                    <div class="text-sm">{formatAddress(address)}</div>
-                </div>
-            </button> 
-                </Link>  : logged == 'err_logged' ? 'Something Wrong' : <Link href={"/Login"}>
+                logged == 'logged' ? 
+                                        address ? 
+                                        <Link href={'/Profile'}>
+                                          <button type='button' class="flex items-center mt-2 space-x-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                                <path d="M12 2a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm4 13h-8v-1h8zm3-4H9V9h10z"/>
+                                            </svg>
+                                            <div>
+                                                <div class="font-bold md:text-md text-sm">Connected</div>
+                                                <div class="md:text-sm text-xs">{formatAddress(address)}</div>
+                                            </div>
+                                        </button>
+                                        </Link> 
+                                        :     
+                                        <button
+                                            type='button'
+                                            className={`font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-slate-700/50 mt-2 text-center`}
+                                            onClick={() => connect()}
+                                        >
+                                            Connect Wallet
+                                        </button>
+         
+               : logged == 'err_logged' ? 'Something Wrong' : <Link href={"/Login"}>
                   <a class="glassmorphism text-white dark:text-white  font-medium rounded-lg text-sm px-4 
                         lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                 </Link>

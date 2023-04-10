@@ -9,10 +9,30 @@ const candidates = () => {
 
   const columns = [
     {
+      title: 'Position Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: image => <img src={image} style={{ width: 50, height: 50, borderRadius: 50 }} />,
+      width: 100
+    },
+    {
       title: 'Positon Name',
       dataIndex: 'name',
       key: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      width: 150
+    },
+    {
+      title: 'Positon Description',
+      dataIndex: 'description',
+      key: 'description',
+      sorter: (a, b) => a.description.localeCompare(b.description),
+    },
+    {
+      title: 'Positon Id',
+      dataIndex: '_id',
+      key: '_id',
+      sorter: (a, b) => a._id.localeCompare(b._id),
       width: 150
     },
     {
@@ -24,6 +44,7 @@ const candidates = () => {
           <Button onClick={() => handleViewCandidate(record._id, record.candidates)} className="text-white bg-primary-500 border-none m-2 hover:bg-green-600 hover:text-white ">View ({record.candidates?.length})</Button>
         </>
       ),
+      width: 150
     },
 
     {
@@ -400,6 +421,12 @@ const candidates = () => {
               >
                 <Form form={form} className="mt-2" initialValues={{ status: statusVal.toString() }}>
                   <Form.Item name="name" label="Position Name">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="description" label="Position Description">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="image" label="Position Image">
                     <Input />
                   </Form.Item>
                   <Form.Item name="date" label="date">
