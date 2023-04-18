@@ -10,18 +10,14 @@
     "next",
     "next/core-web-vitals",
     "prettier",
-    "eslint:recommended",
     "airbnb",
     "airbnb/hooks",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
-    // "plugin:react-hooks/recommended",
-    // always put prettier at last
-    "eslint:recommended", 
-    "plugin:prettier/recommended",
-    "prettier"
+    "eslint:recommended",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -29,7 +25,7 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true // enable linting for jsx files
+      "jsx": true
     },
     "ecmaVersion": 11,
     "sourceType": "module"
@@ -41,10 +37,8 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    // NextJs specific fix: suppress errors for missing 'import React' in files for nextjs
     "react/react-in-jsx-scope": "off",
-   // NextJs specific fix: allow jsx syntax in js files
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], //should add ".ts" if typescript project
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/display-name": 1,
     "prettier/prettier": "error"
   }
