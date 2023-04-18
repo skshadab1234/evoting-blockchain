@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import Head from 'next/head'
 import Header from './components/Header/Header'
 import { useRouter } from 'next/router'
-import {thirdweb } from './assets'
 
 const ElectionDetails = ({ token }) => {
     const router = useRouter()
@@ -106,7 +105,7 @@ const ElectionDetails = ({ token }) => {
 
                                     <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
                                         <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
-                                            <img src={thirdweb.src} alt="user" className="w-[60%] h-[60%] object-contain" />
+                                            <img src={'https://warehouse-camo.ingress.cmh1.psfhosted.org/316d9ff39a9be77349e505ec59ddf65818a720db/68747470733a2f2f6769746875622e636f6d2f74686972647765622d6465762f747970657363726970742d73646b2f626c6f622f6d61696e2f6c6f676f2e7376673f7261773d74727565'} alt="user" className="w-[60%] h-[60%] object-contain" />
                                         </div>
                                         <div>
                                             <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{data[0].electionName}</h4>
