@@ -110,6 +110,10 @@ module.exports = () => {
         source: "/delete_election",
         destination: `${url}/delete_election`,
       },
+      {
+        source: "/updateVoterList",
+        destination: `${url}/updateVoterList`,
+      },
     ];
     
   };

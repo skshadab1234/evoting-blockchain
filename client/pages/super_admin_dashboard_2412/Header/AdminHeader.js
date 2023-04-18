@@ -55,9 +55,7 @@ const AdminHeader = () => {
   const [navigation, setnavigation] = useState([
     { id: 1, name: 'Dashboard', href: `${AdminUrl}`, current: false },
     { id: 2, name: 'Manage', href: `${AdminUrl}/manage/`, current: false },
-    { id: 3, name: 'Calendar', href: '#', current: false },
-    { id: 4, name: 'News Feed', href: '#', current: false },
-    { id: 5, name: 'Feedback', href: '#', current: false },
+    
   ])
 
   const userNavigation = [

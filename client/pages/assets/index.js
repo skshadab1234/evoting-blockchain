@@ -1,4 +1,4 @@
-import  Loader from './loader.svg';
+import  loader from './loader.svg';
 import thirdweb from './thirdweb.png';
 
-export {Loader, thirdweb}
+export {loader, thirdweb}

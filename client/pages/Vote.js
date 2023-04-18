@@ -2,13 +2,23 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header/Header'
 import { useRouter } from 'next/router'
+import { useStateContext } from './context'
+import { useContractWrite, useContract, Web3Button } from "@thirdweb-dev/react";
+import { contractAddress } from './utils'
+
 const Vote = ({ token }) => {
     const [candidateData, setcandidateData] = useState([])
+    const [filterCandidates, setfilterCandidates] = useState([])
     const [Positions, setPositions] = useState([])
     const [filteredPositions, setfilteredPositions] = useState([])
     const [Loading, setLoading] = useState(true)
+    const { vote } = useStateContext();
+    const [form, setForm] = useState({
+        candidateId: '',
+        positionId: '',
+    });
     const router = useRouter()
-    const {id} = router.query;
+    const { id } = router.query;
     const candidateFunction = async () => {
         try {
             const req = await fetch('/getAllCandidate', {
@@ -18,7 +28,7 @@ const Vote = ({ token }) => {
                 },
             })
                 .then(reqData => reqData.json())
-                .then(jsonData => { setcandidateData(jsonData);  })
+                .then(jsonData => { setcandidateData(jsonData); })
                 .catch(error => console.error(error))
 
         } catch (error) {
@@ -35,83 +45,101 @@ const Vote = ({ token }) => {
                 },
             })
                 .then(response => response.json())
-                .then(jsonData => { 
-                   setPositions(jsonData);
-                   setLoading(false);
+                .then(jsonData => {
+                    setPositions(jsonData.filter((item, i) => (item._id == id)));
+                    setLoading(false);
                 })
                 .catch(error => console.error(error))
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        useEffect(() => {
-            if(candidateData.length == 0) {
-                candidateFunction();
-                getPositions()
-            }else{
-                setfilteredPositions((Positions.filter((item,i) => (item._id == id))));
-            }
-        }, [Positions])
 
-        const candidates = filteredPositions.map(item => item.candidates);
-        candidateData.filter((item, index) => console.log(item._id , candidates[0][index]))
-    
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        if (candidateData.length == 0) {
+            candidateFunction();
+            getPositions()
+        }
+
+        if (Positions.length == 0 || filterCandidates.length == 0) {
+            const candidates = Positions.map(item => item.candidates);
+            candidates.length > 0 ?
+                setfilterCandidates(candidateData.filter((item) => candidates[0].includes(item._id))) : ''
+        }
+        // console.log(Positions, candidateData);
+    }, [Positions, filterCandidates])
+
+    console.log(filterCandidates);
+    const { contract } = useContract(contractAddress());
+    const { mutateAsync, isLoading, error } = useContractWrite(
+        contract,
+        "vote",
+    );
     return (
         <div className='container mx-auto'>
             <Header token={token} />
             {
-                Loading ? <p className='text-gray-200'> Loading <span className='animate-bounce'> ....</span></p> :
+                Loading ? <p className='text-gray-200'> Loading <span className='animate-bounce'> .... </span></p> :
                     <>
-                    <div class="relative max-w-5xl mx-auto mt-10 mb-20">
-                        <h1 class="text-slate-100 font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center dark:text-white">
-                            Cast Your Vote for the Next President
-                        </h1>
-                        <p className='text-xl text-gray-200 text-center mt-4 tracking-[2px] uppercase' >
-                            Make Your Voice Heard in the Upcoming Election
-                        </p>
-                    </div>
-                    <div className='grid grid-cols-1 md:grid-cols-1 gap-4 '>
-                        {
-                            filteredPositions.map((item,index) => {
-                                return <>        
-                                    <figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
-                                        <img class="w-48 h-48 object-cover  md:rounded-none rounded-full" src={item.image} alt="" />
-                                        <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
-                                            <blockquote>
-                                                <p class="text-lg font-medium">
-                                                    {item.platform}
-                                                </p>
-                                            </blockquote>
-                                            <figcaption class="font-medium">
-                                                <div class="text-sky-500 dark:text-sky-400">
-                                                    {item.name}
+                        <div className="relative max-w-5xl mx-auto mt-10 mb-20">
+                            <h1 className="text-slate-100 font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center dark:text-white">
+                                Cast Your Vote for the Next Generation
+                            </h1>
+                            <p className='text-xl text-gray-200 text-center mt-4 tracking-[2px] uppercase' >
+                                Make Your Voice Heard in the Upcoming Election
+                            </p>
+                        </div>
+                        <div className='grid grid-cols-1 md:grid-cols-1 gap-4 '>
+                            
+                            {
+                                filterCandidates.length > 0 || filterCandidates != undefined ?
+                                    filterCandidates.map((item, index) => {
+                                        return <>
+                                            <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
+                                                <div className='flex justify-center p-2'>
+                                                    <img className="w-48 h-48 object-cover  rounded-full" src={item.image} alt="" />
                                                 </div>
-                                                <div class="text-slate-700 dark:text-slate-500">
-                                                    {item.slogan}
-                                                </div>
-                                            </figcaption>
-                                            <div className='md:flex justify-between'>
-                                                <div>
-                                                    <Link href="">
-                                                        <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Meet the Candidate</a>
-                                                    </Link>
-                                                    <Link href="">
-                                                        <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Watch Video</a>
-                                                    </Link>
-                                                </div>
+                                                <div className="w-full pt-6 md:p-8 text-center md:text-left space-y-4">
+                                                    <figcaption className="font-medium">
+                                                        <div className="text-sky-500 dark:text-sky-400">
+                                                            {item.name}
+                                                        </div>
+                                                        <div className="text-slate-700 dark:text-slate-500">
+                                                            {item.slogan}
+                                                        </div>
+                                                    </figcaption>
+                                                    <div className='md:flex justify-between flex-wrap'>
+                                                        <div className='flex-1'>
+                                                            <Link href="">
+                                                                <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Meet the Candidate</a>
+                                                            </Link>
+                                                            <Link href="">
+                                                                <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Watch Video</a>
+                                                            </Link>
+                                                        </div>
 
-                                                {/* Vote Button  */}
-                                                <div>
-                                                    <button className='px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm'>Vote</button>
+                                                        {/* Vote Button  */}
+                                                        <div className=''>
+                                                            {
+                                                                error ? "Already Voted" :
+                                                                    <Web3Button
+                                                                        className='bg-slate-700 text-white important'
+                                                                        contractAddress={contractAddress()}
+                                                                        // Calls the "setName" function on your smart contract with "My Name" as the first argument
+                                                                        action={() => mutateAsync({ args: [item._id, id] })}
+                                                                    >
+                                                                        Vote
+                                                                    </Web3Button>
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </figure>
-                                </>
-                            })
-                        }
-                    </div>
+                                            </figure>
+                                        </>
+                                    }) : 'Loading....'
+                            }
+                        </div>
                     </>
             }
         </div>

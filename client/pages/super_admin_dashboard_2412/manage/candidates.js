@@ -254,12 +254,12 @@ const candidates = () => {
           <Link href={`${AdminUrl}`}>
             <a className="hove:text-slate-600r hidden text-slate-500 sm:block" >Home</a>
           </Link>
-          <div aria-hidden="true" class="hidden select-none text-slate-400 sm:block">/</div>
+          <div aria-hidden="true" className="hidden select-none text-slate-400 sm:block">/</div>
           <Link href={`${AdminUrl}/manage`}>
-            <a class="hidden text-slate-500 hover:text-slate-600 sm:block" >Manage</a>
+            <a className="hidden text-slate-500 hover:text-slate-600 sm:block" >Manage</a>
           </Link>
-          <div aria-hidden="true" class="hidden select-none text-slate-400 sm:block">/</div>
-          <p class="text-slate-500 hover:text-slate-600">Manage candidates</p>
+          <div aria-hidden="true" className="hidden select-none text-slate-400 sm:block">/</div>
+          <p className="text-slate-500 hover:text-slate-600">Manage candidates</p>
         </nav>
 
        {

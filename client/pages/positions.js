@@ -68,22 +68,22 @@ const positions = ({ token }) => {
         <link rel="icon" type="image/x-icon" href='logo-sm.jpg' />
       </Head>
       <Header token={token} />
-      <h2 class="mt-8 font-semibold text-sky-500">Positions List</h2>
-      <p class="mt-4 text-3xl sm:text-4xl text-slate-200 font-extrabold tracking-tight dark:text-slate-50 ">Check out the Latest Positions List for the Upcoming Election!</p>
-      <div class="not-prose my-12 grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <h2 className="mt-8 font-semibold text-sky-500">Positions List</h2>
+      <p className="mt-4 text-3xl sm:text-4xl text-slate-200 font-extrabold tracking-tight dark:text-slate-50 ">Check out the Latest Positions List for the Upcoming Election!</p>
+      <div className="not-prose my-12 grid grid-cols-1 gap-4 sm:grid-cols-4">
         {
           isLoading ? "Loading" :
             positionData.map((position, i) => {
               return <>
-                <div class="group relative rounded-xl border border-slate-200 dark:border-slate-800">
-                  <div class="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
-                  <div class="relative overflow-hidden rounded-xl p-6">
-                    <h2 class="mt-4 font-display text-base text-sky-500 text-2xl text-uppercase font-bold">
+                <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+                  <div className="relative overflow-hidden rounded-xl p-6">
+                    <h2 className="mt-4 font-display text-base text-sky-500 text-2xl text-uppercase font-bold">
                       <Link href={'/votingBooth'}>
-                        <a><span class="absolute -inset-px rounded-xl"></span>{position.name}</a>
+                        <a><span className="absolute -inset-px rounded-xl"></span>{position.name}</a>
                       </Link>
                     </h2>
-                    <p class="mt-1 text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400">{position.candidates.length > 0 ? `A massive pool of ${position.candidates.length} faculty members are competing for the post.` : `${position.candidates.length} Candidate's for this position`}</p>
+                    <p className="mt-1 text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400">{position.candidates.length > 0 ? `A massive pool of ${position.candidates.length} faculty members are competing for the post.` : `${position.candidates.length} Candidate's for this position`}</p>
                     <hr className='border-slate-700 mt-4' />
                     <h3 className='mt-4 text-slate-400'>{moment(position.date+" "+position.time).format('LLL')}</h3>
                     <h3>{position.status == 1 ? <p className='text-green-400 font-medium mt-2'>Active</p> : <p className='text-rose-500 font-medium mt-2'>Blocked</p>}</h3>

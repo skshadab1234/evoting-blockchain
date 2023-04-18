@@ -44,7 +44,7 @@ const Login = ({ token }) => {
         if (inputsvalues.voterId == "" || inputsvalues.password == "") {
             Swal.fire(
                 {
-                    title: "<div class='text-red-500 text-xl md:text-2xl'>All Fields are required</div>",
+                    title: "<div className='text-red-500 text-xl md:text-2xl'>All Fields are required</div>",
                     icon: "error"
                 }
             )
@@ -52,7 +52,7 @@ const Login = ({ token }) => {
         else if(address == undefined) {
             Swal.fire(
                 {
-                    title: "<div class='text-red-500 text-xl md:text-2xl'>Connect your Metamask Wallet</div>",
+                    title: "<div className='text-red-500 text-xl md:text-2xl'>Connect your Metamask Wallet</div>",
                     icon: "error"
                 }
             )
@@ -74,7 +74,7 @@ const Login = ({ token }) => {
             if (data.message == "Logged Successfully") {
                 let timerInterval
                 Swal.fire({
-                    title: '<p class="text-green-500">Logged Successfully</p>',
+                    title: '<p className="text-green-500">Logged Successfully</p>',
                     icon: 'success',
                     timer: 3000,
                     timerProgressBar: true,
@@ -93,7 +93,7 @@ const Login = ({ token }) => {
             } else {
                 Swal.fire(
                     {
-                        title: "<div class='text-red-500 text-xl md:text-2xl'>Invalid Credentials</div>",
+                        title: "<div className='text-red-500 text-xl md:text-2xl'>Invalid Credentials</div>",
                         icon: "error"
                     }
                 )
@@ -170,13 +170,13 @@ const Login = ({ token }) => {
                                     {
                                         address ? 
                                         <>
-                                          <button type='button' class="flex items-center mt-2 space-x-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
-                                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                          <button type='button' className="flex items-center mt-2 space-x-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                                                 <path d="M12 2a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm4 13h-8v-1h8zm3-4H9V9h10z"/>
                                             </svg>
                                             <div>
-                                                <div class="font-bold">Connected</div>
-                                                <div class="text-sm">{formatAddress(address)}</div>
+                                                <div className="font-bold">Connected</div>
+                                                <div className="text-sm">{formatAddress(address)}</div>
                                             </div>
                                         </button>
 

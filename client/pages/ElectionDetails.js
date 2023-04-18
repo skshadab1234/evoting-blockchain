@@ -52,13 +52,13 @@ const ElectionDetails = ({ token }) => {
             }
         }
         
-        useEffect(() => {
-            if(Positions.length == 0) {
-                callElection();
-            }else{
-                setfilteredPositions(Positions.filter((item,i) => (item._id == data[0].Positions[0][i].trim())));
-            }
-        }, [Positions, filteredPositions])
+    useEffect(() => {
+        if(Positions.length == 0) {
+            callElection();
+        }else{
+            setfilteredPositions(Positions.filter((item,i) => (item._id == data[0].Positions[0][i].trim())));
+        }
+    }, [Positions, filteredPositions])
         
         
     return (
@@ -185,8 +185,6 @@ const ElectionDetails = ({ token }) => {
 }
 
 export default ElectionDetails
-
-
 
 export function getServerSideProps({ req, res }) {
     return { props: { token: req.cookies.voter_evotingLoginToken || '' } }

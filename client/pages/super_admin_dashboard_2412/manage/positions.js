@@ -46,6 +46,18 @@ const candidates = () => {
       ),
       width: 150
     },
+    {
+      title: 'Voters',
+      key: 'voter',
+      render: (text, record) => (
+        <>
+          <Button onClick={() => handleVoterCRUD(record._id, record.name)} className="text-white bg-green-500 border-none m-2 hover:bg-green-600 hover:text-white ">Add</Button>
+          <Button onClick={() => handleViewVoter(record._id, record.Voters)} className="text-white bg-primary-500 border-none m-2 hover:bg-green-600 hover:text-white ">View ({record.Voters?.length})</Button>
+        </>
+      ),
+      width: 150
+    },
+
 
     {
       title: 'Action',
@@ -67,6 +79,7 @@ const candidates = () => {
   const [data, setData] = useState();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [CandidateModal, setCandidateModal] = useState(false);
+  const [VoterModal, setVoterModal] = useState(false);
   const [handleName, sethandleName] = useState('');
   const [Loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,7 +87,7 @@ const candidates = () => {
   const pageSize = 5;
 
   useEffect(() => {
-    const callVoter = async () => {
+    const callPosition = async () => {
       try {
         const req = await fetch('/getAllPositions', {
           method: "GET",
@@ -91,7 +104,7 @@ const candidates = () => {
       }
     }
 
-    callVoter();
+    callPosition();
 
   }, [])
 
@@ -123,7 +136,7 @@ const candidates = () => {
   const handleDeleteModalOk = () => {
     setData(data.filter((item) => item._id !== selectedKey));
     setDeleteModalVisible(false);
-    const deleteVoter = async () => {
+    const deletePosition = async () => {
       try {
         const res = await fetch("/delete_position", {
           method: "POST",
@@ -149,7 +162,7 @@ const candidates = () => {
     }
 
     // Caling Add Candidate Function
-    deleteVoter();
+    deletePosition();
 
   };
 
@@ -214,7 +227,7 @@ const candidates = () => {
 
           // console.log({selectedKey, values})
           // Update Candidate Request 
-          const updateVoter = async () => {
+          const updatePosition = async () => {
             try {
               const res = await fetch("/update_position", {
                 method: "POST",
@@ -240,7 +253,7 @@ const candidates = () => {
           }
 
           // Caling Add Candidate Function
-          updateVoter();
+          updatePosition();
         }
 
 
@@ -271,10 +284,42 @@ const candidates = () => {
     },
   ];
 
+  const voterColumn = [
+    {
+      title: 'Voter Id',
+      dataIndex: 'voterId',
+      key: 'voterId'
+    },
+    {
+      title: 'first Name',
+      dataIndex: 'firstName',
+      key: 'firstName'
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName'
+    },
+    {
+      title: 'city',
+      dataIndex: 'city',
+      key: 'city'
+    },
+    
+    {
+      title: 'isVerified',
+      dataIndex: 'isVerified',
+      key: 'isVerified'
+    },
+
+  ];
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [candidateData, setcandidateData] = useState([])
+  const [VoterData, setVoterData] = useState([])
   const [filteredCandidate, setfilteredCandidate] = useState([])
+  const [filterVoter, setfilterVoter] = useState([])
   const [viewCandidateModal,setViewCandidateModal] = useState(false)
+  const [viewVoterModal,setviewVoterModal] = useState(false)
 
   useEffect(() => {
     const callCandidate = async () => {
@@ -297,8 +342,30 @@ const candidates = () => {
         console.log(error);
       }
     }
+    
+    const callVoters = async () => {
+      try {
+        const req = await fetch('/getAllVoter', {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+          .then(response => response.json())
+          .then(jsonVoterData => {
+            const newVoterData = jsonVoterData.map((item, index) => ({ ...item, key: item._id }));
+            setVoterData(newVoterData);
+            setLoading(false);
+          })
+          .catch(error => console.error(error))
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     callCandidate();
+    callVoters();
   }, [])
 
   const onSelectChange = (newSelectedRowKeys) => {
@@ -366,27 +433,80 @@ const candidates = () => {
   }
 
   const handleViewCandidate = (key,candidates) => {
-
     setfilteredCandidate(candidateData.filter(candidate => candidates?.includes(candidate._id)));
     setViewCandidateModal(true)
   }
   
-  console.log(statusVal);
+  const handleViewVoter = (key,voter) => {
+      setfilterVoter(VoterData.filter(voters => voter?.includes(voters._id)));
+    setviewVoterModal(true)
+  }
+  
+  const handleVoterOk = () => {
+    setVoterModal(false)
+    if (selectedRowKeys.length > 0) {
+      let addCandidatetoPosition = async () => {
+        try {
+          const res = await fetch("/updateVoterList", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              selectedRowKeys, selectedKey
+            })
+          })
+
+          const data = await res.json();
+          // console.log(data)
+          if (data.status == 200) {
+            message.success(data.message)
+          } else if (data.status == 500) {
+            message.success(data.message)
+          } else if (data.status == 404) {
+            message.success(data.message)
+          }else {
+            message.error("Something Went Wrong")
+          }
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      // Caling Add Candidate Function
+      addCandidatetoPosition()
+    }else{
+      message.error("No Candidate Selected")
+    }
+
+  }
+  const handleVoterCancel = () => {
+    setVoterModal(false)
+    setviewVoterModal(false)
+  }
+
+  const handleVoterCRUD = (key, name) => {
+    setVoterModal(true)
+    sethandleName(name)
+    setSelectedKey(key)    
+  }
+
   return (
     <main>
       <AdminHeader />
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 p-5">
-        <h1 className='text-4xl text-gray-300 font-bold mb-2'>Voter's</h1>
+        <h1 className='text-4xl text-gray-300 font-bold mb-2'>Position's</h1>
         <nav aria-label="Breadcrumbs" className="order-first flex text-sm font-semibold sm:space-x-2">
           <Link href={`${AdminUrl}`}>
             <a className="hove:text-slate-600r hidden text-slate-500 sm:block" >Home</a>
           </Link>
-          <div aria-hidden="true" class="hidden select-none text-slate-400 sm:block">/</div>
+          <div aria-hidden="true" className="hidden select-none text-slate-400 sm:block">/</div>
           <Link href={`${AdminUrl}/manage`}>
-            <a class="hidden text-slate-500 hover:text-slate-600 sm:block" >Manage</a>
+            <a className="hidden text-slate-500 hover:text-slate-600 sm:block" >Manage</a>
           </Link>
-          <div aria-hidden="true" class="hidden select-none text-slate-400 sm:block">/</div>
-          <p class="text-slate-500 hover:text-slate-600">Manage voter's</p>
+          <div aria-hidden="true" className="hidden select-none text-slate-400 sm:block">/</div>
+          <p className="text-slate-500 hover:text-slate-600">Manage Position's</p>
         </nav>
 
         {
@@ -469,6 +589,24 @@ const candidates = () => {
                 onCancel={handleCandidateCancel}
               >``
                 <Table rowSelection={rowSelection} columns={candidateColumn} dataSource={filteredCandidate} />
+              </Modal>
+
+              <Modal
+                title={`Add/Remove Voter for ${handleName}`}
+                visible={VoterModal}
+                onOk={handleVoterOk}
+                onCancel={handleVoterCancel}
+              >
+                <Table rowSelection={rowSelection} columns={voterColumn} dataSource={VoterData} />
+              </Modal>
+
+              <Modal
+                title={`List of Selected Voter's for ${handleName} to Vote`}
+                visible={viewVoterModal}
+                footer={null}
+                onCancel={handleVoterCancel}
+              >
+                <Table rowSelection={rowSelection} columns={voterColumn} dataSource={filterVoter} />
               </Modal>
             </>
         }
