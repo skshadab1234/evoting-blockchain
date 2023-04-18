@@ -39,7 +39,7 @@
       "version": "detect"
     }
   },
-  "plugins": ["react", "react-hooks", "prettier"],
+  "plugins": ["react", "prettier"],
   "rules": {
     // NextJs specific fix: suppress errors for missing 'import React' in files for nextjs
     "react/react-in-jsx-scope": "off",
