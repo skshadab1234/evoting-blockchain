@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Header from './components/Header/Header'
 import { useRouter } from 'next/router'
 import {thirdweb } from './assets'
-import Link from 'next/link'
+
 const ElectionDetails = ({ token }) => {
     const router = useRouter()
     const { id } = router.query;

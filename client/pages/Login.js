@@ -3,9 +3,7 @@ import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import Head from 'next/head'
 import { useStateContext } from './context'
-
 import { formatAddress } from './utils'
-import { Loader } from './assets'
 
 const Login = ({ token }) => {
     const router = useRouter();
@@ -197,7 +195,7 @@ const Login = ({ token }) => {
                         </div>
 
                            {
-                            loggingLoad ? <img src={Loader.src} width={100} /> :  <button type='submit' className='w-full'>
+                            loggingLoad ? '' :  <button type='submit' className='w-full'>
                             <div className='flex justify-center bg-[#16F6C9] mt-10 rounded-md p-2 ml-5 mr-5'>
                                     Login
                             </div>
