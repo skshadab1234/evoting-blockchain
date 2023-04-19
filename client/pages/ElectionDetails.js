@@ -54,10 +54,9 @@ const ElectionDetails = ({ token }) => {
     useEffect(() => {
         if(Positions.length == 0) {
             callElection();
-        }else{
             setfilteredPositions(Positions.filter((item,i) => (item._id == data[0].Positions[0][i].trim())));
         }
-    }, [Positions, filteredPositions])
+    }, [Positions])
         
         
     return (

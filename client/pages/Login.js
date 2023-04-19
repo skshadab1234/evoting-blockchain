@@ -145,7 +145,6 @@ const Login = ({ token }) => {
                     <h2 className='mt-4 text-center text-3xl font-medium text-gray-980  text-gray-200 underline-offset-4 afterLine relative' >Voter Login</h2>
 
                     <form method='post' onSubmit={LoginUser} className=''>
-
                         <div className='flex justify-center mt-10 '>
                             <div>
                                 {

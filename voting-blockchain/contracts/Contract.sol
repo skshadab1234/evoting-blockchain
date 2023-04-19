@@ -13,8 +13,8 @@ contract VotingRecord {
     Voter[] public votingRecords;
 
     function vote(string memory candidate, string memory position) public {
-        // require(!voters[msg.sender].hasVoted, "This voter has already voted.");
-        // voters[msg.sender].VoterAddress = msg.sender;
+        require(!voters[msg.sender].hasVoted, "This voter has already voted.");
+        voters[msg.sender].VoterAddress = msg.sender;
         voters[msg.sender].hasVoted = true;
         voters[msg.sender].votedFor = candidate;
         voters[msg.sender].position = position;

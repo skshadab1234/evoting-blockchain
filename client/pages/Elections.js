@@ -26,7 +26,6 @@ const Elections = () => {
         callElection();
     }, [])
 
-    console.log(data);
     return (
         <div className='container mx-auto p-5'>
             <h1 className='mt-4 text-2xl sm:text-3xl text-gray-300 font-extrabold tracking-tight dark:text-gray-600 '>Upcoming Elections</h1>
@@ -34,7 +33,7 @@ const Elections = () => {
 
             <div className='flex md:gap-10 md:flex-row flex-col '>
             {
-                Loading ? "Laofing" : <>
+                Loading ? "Loading" : <>
                     {
                         data.map((election, index) => {
                             return <>
