@@ -12,7 +12,6 @@ import {
 import { useRouter } from 'next/router'
 import { useStateContext } from '../context';
 import Select from "react-select";
-import { loader } from '../assets';
 
 const index = () => {
   const router = useRouter();
@@ -24,7 +23,6 @@ const index = () => {
   const [lastToken, setlastToken] = useState([])
   const [DashboardData, setDashboardData] = useState([])
   const [CandidateCount, setCandidateCount] = useState(0)
-  const [positionCount, setpositionCount] = useState(0)
   const [VoterCount, setVoterCount] = useState(0)
   const [fetchGraph, setfetchGraph] = useState(false)
   const [votedData, setvotedData] = useState([])
@@ -37,9 +35,7 @@ const index = () => {
   const [loaderCount, setLoaderCount] = useState(0)
   const [graphButtonStatus, setGraphButtonStatus] = useState('Fetching Graph');
   const [buttonStatus, setbuttonStatus] = useState({});
-
   const { posId } = router.query;
-
 
   const callPosition = async () => {
     try {
@@ -150,7 +146,7 @@ const index = () => {
 
   useEffect(() => {
     if (DashboardData.length > 0) {
-      setFilteredPosition(PositionData.filter((item) => (DashboardData[0].Positions[0].includes(item._id))));
+      setFilteredPosition(PositionData.filter((item) => (DashboardData[0].Positions[0]?.includes(item._id))));
       setstats([
         { id: 1, stat_name: 'No. of Positions', href: "", stats_value: DashboardData.length > 0 ? DashboardData[0].Positions[0]?.length : 0, haveChart: false },
         { id: 2, stat_name: 'No. of Candidates', href: "", stats_value: CandidateCount, haveChart: true },

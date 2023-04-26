@@ -88,13 +88,10 @@ export default function Header({ token }) {
                   <a href="#" className="block py-2 pr-4 pl-3 font-bold text-[#fff] rounded bg-primary-700 lg:bg-transparent lg:text-[#7278B6] lg:p-0 dark:text-[#7278B6]" aria-current="page">Home</a>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">About us</a>
+                  <a href="#" className="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Developers</a>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
-                </li>
-                <li>
-                  <a href="#" className="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                  <a href="#" className="block py-2 pr-4 pl-3 lg:hover:text-[#7278B6] lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Support</a>
                 </li>
                 {
                   logged == 'logged' ? <li>

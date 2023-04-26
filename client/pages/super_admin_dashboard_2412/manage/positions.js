@@ -121,7 +121,7 @@ const candidates = () => {
 
   function handleUpdate(key) {
     const selectedRow = data.find(item => item._id === key);
-    form.setFieldsValue({name:selectedRow.name, date:selectedRow.date != undefined ? moment(selectedRow.date).format('YYYY-MM-DD') : '',time:selectedRow.time != undefined ? moment(selectedRow.date+" "+selectedRow.time).format('hh:mm') : ''});
+    form.setFieldsValue({name:selectedRow.name, description:selectedRow.description, image:selectedRow.image, date:selectedRow.date != undefined ? moment(selectedRow.date).format('YYYY-MM-DD') : '',time:selectedRow.time != undefined ? moment(selectedRow.date+" "+selectedRow.time).format('hh:mm') : ''});
     setstatusVal(selectedRow.status)
     setModalVisible(true);
     setSelectedKey(key);
@@ -517,7 +517,7 @@ const candidates = () => {
               </div>
               <div className=''>
                 <Table columns={columns}
-                  dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+                  dataSource={data?.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
                   pagination={false}
                   className=" mt-10"
                   rowClassName="bg-slate-800 no-hover text-gray-200 hover:text-slate-400 rounded-none border-b-2 border-zinc-300" />

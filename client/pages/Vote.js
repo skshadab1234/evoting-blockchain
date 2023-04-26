@@ -19,6 +19,7 @@ const Vote = ({ token }) => {
     });
     const router = useRouter()
     const { id } = router.query;
+    
     const candidateFunction = async () => {
         try {
             const req = await fetch('/getAllCandidate', {
@@ -110,14 +111,7 @@ const Vote = ({ token }) => {
                                                         </div>
                                                     </figcaption>
                                                     <div className='md:flex justify-between flex-wrap'>
-                                                        <div className='flex-1'>
-                                                            <Link href="">
-                                                                <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Meet the Candidate</a>
-                                                            </Link>
-                                                            <Link href="">
-                                                                <a className='text-sm text-gray-400 hover:text-gray-800 p-2'>Watch Video</a>
-                                                            </Link>
-                                                        </div>
+                                                      
 
                                                         {/* Vote Button  */}
                                                         <div className=''>
@@ -140,6 +134,7 @@ const Vote = ({ token }) => {
                                     }) : 'Loading....'
                             }
                         </div>
+                     
                     </>
             }
         </div>
